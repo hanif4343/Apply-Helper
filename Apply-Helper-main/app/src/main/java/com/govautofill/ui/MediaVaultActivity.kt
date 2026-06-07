@@ -162,13 +162,13 @@ class MediaVaultActivity : AppCompatActivity() {
                         binding.cardSignaturePreview.visibility = View.VISIBLE
                     }
 
-                    Toast.makeText(this, "✅ ${result.sizeKb} KB — সেভ হয়েছে!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "সেভ হয়েছে! ${result.sizeKb} KB", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 runOnUiThread {
                     binding.progressProcessing.visibility = View.GONE
                     binding.btnApplyWhiten.isEnabled = true
-                    Toast.makeText(this, "❌ Error: ${e.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
                 }
             }
         }.start()
