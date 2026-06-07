@@ -22,22 +22,20 @@
 
             <Button
                 android:id="@+id/btnBack"
+                style="@style/BrowserButton"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
-                android:backgroundTint="@color/primary"
-                android:text="&#9664;"
-                android:textColor="@color/white"
-                android:textSize="16sp"
+                android:text="&lt;"
+                android:textSize="18sp"
                 android:padding="0dp"/>
 
             <Button
                 android:id="@+id/btnForward"
+                style="@style/BrowserButton"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
-                android:backgroundTint="@color/primary"
-                android:text="&#9654;"
-                android:textColor="@color/white"
-                android:textSize="16sp"
+                android:text="&gt;"
+                android:textSize="18sp"
                 android:padding="0dp"/>
 
             <EditText
@@ -47,7 +45,7 @@
                 android:layout_weight="1"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:background="#33FFFFFF"
+                android:background="#44FFFFFF"
                 android:textColor="@color/white"
                 android:textColorHint="#99FFFFFF"
                 android:hint="URL লিখুন..."
@@ -60,33 +58,30 @@
 
             <Button
                 android:id="@+id/btnGo"
+                style="@style/BrowserButton"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
-                android:backgroundTint="@color/primary"
                 android:text="Go"
-                android:textColor="@color/white"
-                android:textSize="11sp"
+                android:textSize="12sp"
                 android:padding="0dp"/>
 
             <Button
                 android:id="@+id/btnRefresh"
+                style="@style/BrowserButton"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
-                android:backgroundTint="@color/primary"
-                android:text="&#8635;"
-                android:textColor="@color/white"
-                android:textSize="18sp"
+                android:text="R"
+                android:textSize="14sp"
                 android:padding="0dp"/>
         </LinearLayout>
 
-        <!-- Progress Bar -->
+        <!-- Progress Bar — no progressTint to avoid crash -->
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:max="100"
-            android:progressTint="@color/accent"
             android:visibility="invisible"/>
 
         <!-- WebView -->
@@ -96,7 +91,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <!-- Bottom Nav Bar -->
+        <!-- Bottom Nav -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="52dp"
@@ -106,45 +101,42 @@
 
             <Button
                 android:id="@+id/btnHome"
+                style="@style/BrowserButton"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/primary"
                 android:text="Home"
-                android:textSize="11sp"
-                android:textColor="@color/white"/>
+                android:textSize="11sp"/>
 
             <Button
                 android:id="@+id/btnBookmarks"
+                style="@style/BrowserButton"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/primary"
                 android:text="Bookmarks"
-                android:textSize="10sp"
-                android:textColor="@color/white"/>
+                android:textSize="10sp"/>
 
             <Button
                 android:id="@+id/btnAddBookmark"
+                style="@style/BrowserButton"
                 android:layout_width="0dp"
                 android:layout_height="44dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/primary"
                 android:text="+ Save"
-                android:textSize="11sp"
-                android:textColor="@color/white"/>
+                android:textSize="11sp"/>
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Fill Button — plain Button inside FrameLayout, bottom-right -->
+    <!-- Fill Button -->
     <Button
         android:id="@+id/fabFill"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="68dp"
-        android:backgroundTint="@color/primary"
+        android:background="@color/primary"
         android:text="Fill Form"
         android:textColor="@color/white"
         android:textStyle="bold"
