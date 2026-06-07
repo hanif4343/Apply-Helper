@@ -13,7 +13,7 @@
             android:text="চাকরির আবেদন" android:textColor="@color/white"
             android:textSize="17sp" android:textStyle="bold" android:gravity="center"/>
         <Button android:id="@+id/btnSaveJob" android:layout_width="wrap_content" android:layout_height="40dp"
-            android:backgroundTint="#FF2E7D32" android:text="💾 সেভ" android:textColor="@color/white" android:textSize="13sp"/>
+            android:backgroundTint="#FF2E7D32" android:text="সেভ" android:textColor="@color/white" android:textSize="13sp"/>
     </LinearLayout>
 
     <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
@@ -22,7 +22,7 @@
 
             <!-- Job Info -->
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="💼 চাকরির তথ্য" android:textColor="@color/primary"
+                android:text="চাকরির তথ্য" android:textColor="@color/primary"
                 android:textSize="15sp" android:textStyle="bold" android:layout_marginBottom="8dp"/>
 
             <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
@@ -90,7 +90,7 @@
 
             <!-- Status Spinners -->
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="📊 অবস্থা" android:textColor="@color/primary"
+                android:text="অবস্থা" android:textColor="@color/primary"
                 android:textSize="15sp" android:textStyle="bold" android:layout_marginBottom="8dp"/>
 
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
 
             <!-- Payment Info -->
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="💳 পেমেন্ট তথ্য" android:textColor="@color/primary"
+                android:text="পেমেন্ট তথ্য" android:textColor="@color/primary"
                 android:textSize="15sp" android:textStyle="bold" android:layout_marginBottom="8dp"/>
 
             <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
