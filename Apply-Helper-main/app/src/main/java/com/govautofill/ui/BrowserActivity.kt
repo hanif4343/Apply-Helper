@@ -21,16 +21,24 @@ class BrowserActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBrowserBinding
     private lateinit var profileRepo: ProfileRepository
     private lateinit var bookmarkManager: BookmarkManager
+    private var webViewReady = false
 
     companion object {
         const val EXTRA_URL = "extra_url"
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityBrowserBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+
+        // ViewBinding inflate — try/catch যাতে inflate error-এও crash না হয়
+        try {
+            binding = ActivityBrowserBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+        } catch (e: Exception) {
+            Toast.makeText(this, "Browser load error: ${e.message}", Toast.LENGTH_LONG).show()
+            finish()
+            return
+        }
 
         profileRepo = ProfileRepository(this)
         bookmarkManager = BookmarkManager(this)
@@ -45,34 +53,41 @@ class BrowserActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebView() {
-        with(binding.webView.settings) {
-            javaScriptEnabled = true
-            domStorageEnabled = true
-            loadWithOverviewMode = true
-            useWideViewPort = true
-            builtInZoomControls = true
-            displayZoomControls = false
-            setSupportZoom(true)
-            mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-            userAgentString = "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
-        }
+        try {
+            with(binding.webView.settings) {
+                javaScriptEnabled = true
+                domStorageEnabled = true
+                loadWithOverviewMode = true
+                useWideViewPort = true
+                builtInZoomControls = true
+                displayZoomControls = false
+                setSupportZoom(true)
+                mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+            }
+        } catch (e: Exception) { /* ignore settings errors */ }
 
         binding.webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
-                binding.progressBar.visibility = View.VISIBLE
-                binding.etUrl.setText(url)
+                try {
+                    webViewReady = false
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.etUrl.setText(url)
+                } catch (e: Exception) { }
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
-                binding.progressBar.visibility = View.INVISIBLE
-                binding.etUrl.setText(url)
-                detectFormAndShowButton()
+                try {
+                    webViewReady = true
+                    binding.progressBar.visibility = View.INVISIBLE
+                    binding.etUrl.setText(url)
+                    detectFormAndShowButton()
+                } catch (e: Exception) { }
             }
 
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?) = false
 
             override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
-                binding.progressBar.visibility = View.INVISIBLE
+                try { binding.progressBar.visibility = View.INVISIBLE } catch (e: Exception) { }
             }
         }
 
@@ -84,6 +99,7 @@ class BrowserActivity : AppCompatActivity() {
     }
 
     private fun detectFormAndShowButton() {
+        if (!webViewReady) return
         try {
             binding.webView.evaluateJavascript(
                 "(function(){ try { return document.querySelectorAll('input[type=\"text\"],input[type=\"email\"],input[type=\"tel\"],input[type=\"number\"],input:not([type])').length; } catch(e){ return 0; } })()"
@@ -108,48 +124,58 @@ class BrowserActivity : AppCompatActivity() {
     }
 
     private fun loadUserUrl() {
-        var url = binding.etUrl.text.toString().trim()
-        if (url.isEmpty()) return
-        url = when {
-            url.startsWith("http://") || url.startsWith("https://") -> url
-            url.contains(".") -> "https://$url"
-            else -> "https://www.google.com/search?q=${url.replace(" ", "+")}"
-        }
-        binding.webView.loadUrl(url)
-        hideKeyboard()
+        try {
+            var url = binding.etUrl.text.toString().trim()
+            if (url.isEmpty()) return
+            url = when {
+                url.startsWith("http://") || url.startsWith("https://") -> url
+                url.contains(".") -> "https://$url"
+                else -> "https://www.google.com/search?q=${url.replace(" ", "+")}"
+            }
+            binding.webView.loadUrl(url)
+            hideKeyboard()
+        } catch (e: Exception) { }
     }
 
     private fun setupButtons() {
         binding.btnBack.setOnClickListener {
-            if (binding.webView.canGoBack()) binding.webView.goBack() else finish()
+            try {
+                if (binding.webView.canGoBack()) binding.webView.goBack() else finish()
+            } catch (e: Exception) { finish() }
         }
         binding.btnForward.setOnClickListener {
-            if (binding.webView.canGoForward()) binding.webView.goForward()
+            try { if (binding.webView.canGoForward()) binding.webView.goForward() } catch (e: Exception) { }
         }
-        binding.btnRefresh.setOnClickListener { binding.webView.reload() }
+        binding.btnRefresh.setOnClickListener {
+            try { binding.webView.reload() } catch (e: Exception) { }
+        }
         binding.btnHome.setOnClickListener { finish() }
         binding.btnBookmarks.setOnClickListener { showBookmarksDialog() }
         binding.btnAddBookmark.setOnClickListener {
-            val url = binding.webView.url ?: return@setOnClickListener
-            val title = binding.webView.title ?: url
-            bookmarkManager.addBookmark(Bookmark(title, url))
-            Toast.makeText(this, "✅ Bookmark যোগ হয়েছে!", Toast.LENGTH_SHORT).show()
+            try {
+                val url = binding.webView.url ?: return@setOnClickListener
+                val title = binding.webView.title ?: url
+                bookmarkManager.addBookmark(Bookmark(title, url))
+                Toast.makeText(this, "Bookmark যোগ হয়েছে", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) { }
         }
         binding.fabFill.setOnClickListener { fillForm() }
     }
 
     private fun fillForm() {
-        val profile = profileRepo.getProfile()
-        if (profile.fullNameEn.isEmpty() && profile.nidNo.isEmpty()) {
-            Toast.makeText(this, "⚠️ প্রথমে প্রোফাইল সেট করুন!", Toast.LENGTH_LONG).show()
-            return
-        }
         try {
+            val profile = profileRepo.getProfile()
+            if (profile.fullNameEn.isEmpty() && profile.nidNo.isEmpty()) {
+                Toast.makeText(this, "প্রথমে প্রোফাইল সেট করুন", Toast.LENGTH_LONG).show()
+                return
+            }
             val js = JsFormFiller.buildScript(profile)
             binding.webView.evaluateJavascript(js) { result ->
                 runOnUiThread {
-                    val msg = result?.trim()?.replace("\"", "") ?: "পূরণ সম্পন্ন"
-                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                    try {
+                        val msg = result?.trim()?.replace("\"", "") ?: "পূরণ সম্পন্ন"
+                        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+                    } catch (e: Exception) { }
                 }
             }
         } catch (e: Exception) {
@@ -158,27 +184,31 @@ class BrowserActivity : AppCompatActivity() {
     }
 
     private fun showBookmarksDialog() {
-        val bookmarks = bookmarkManager.getBookmarks()
-        if (bookmarks.isEmpty()) {
-            Toast.makeText(this, "কোনো bookmark নেই", Toast.LENGTH_SHORT).show()
-            return
-        }
-        val titles = bookmarks.map { "${it.emoji} ${it.title}" }.toTypedArray()
-        AlertDialog.Builder(this)
-            .setTitle("📌 Bookmarks")
-            .setItems(titles) { _, which -> binding.webView.loadUrl(bookmarks[which].url) }
-            .setNegativeButton("বন্ধ", null)
-            .setNeutralButton("Edit") { _, _ ->
-                val editTitles = bookmarks.map { "❌ ${it.emoji} ${it.title}" }.toTypedArray()
-                AlertDialog.Builder(this)
-                    .setTitle("Bookmark মুছুন")
-                    .setItems(editTitles) { _, i ->
-                        bookmarkManager.removeBookmark(bookmarks[i].url)
-                        Toast.makeText(this, "মুছে গেছে", Toast.LENGTH_SHORT).show()
-                    }
-                    .setNegativeButton("বন্ধ", null).show()
+        try {
+            val bookmarks = bookmarkManager.getBookmarks()
+            if (bookmarks.isEmpty()) {
+                Toast.makeText(this, "কোনো bookmark নেই", Toast.LENGTH_SHORT).show()
+                return
             }
-            .show()
+            val titles = bookmarks.map { it.title }.toTypedArray()
+            AlertDialog.Builder(this)
+                .setTitle("Bookmarks")
+                .setItems(titles) { _, which ->
+                    try { binding.webView.loadUrl(bookmarks[which].url) } catch (e: Exception) { }
+                }
+                .setNegativeButton("বন্ধ", null)
+                .setNeutralButton("Edit") { _, _ ->
+                    val editTitles = bookmarks.map { "X  ${it.title}" }.toTypedArray()
+                    AlertDialog.Builder(this)
+                        .setTitle("Bookmark মুছুন")
+                        .setItems(editTitles) { _, i ->
+                            bookmarkManager.removeBookmark(bookmarks[i].url)
+                            Toast.makeText(this, "মুছে গেছে", Toast.LENGTH_SHORT).show()
+                        }
+                        .setNegativeButton("বন্ধ", null).show()
+                }
+                .show()
+        } catch (e: Exception) { }
     }
 
     private fun hideKeyboard() {
@@ -189,12 +219,20 @@ class BrowserActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (binding.webView.canGoBack()) binding.webView.goBack()
-        else super.onBackPressed()
+        try {
+            if (binding.webView.canGoBack()) binding.webView.goBack()
+            else super.onBackPressed()
+        } catch (e: Exception) {
+            super.onBackPressed()
+        }
     }
 
     override fun onDestroy() {
-        try { binding.webView.stopLoading(); binding.webView.destroy() } catch (e: Exception) { }
+        try {
+            binding.webView.stopLoading()
+            binding.webView.loadUrl("about:blank")
+            binding.webView.destroy()
+        } catch (e: Exception) { }
         super.onDestroy()
     }
 }
