@@ -7,6 +7,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.multidex.MultiDex
+import android.content.Context
 import com.govautofill.R
 import com.govautofill.databinding.ActivityMainBinding
 import com.govautofill.utils.AdManager
@@ -17,22 +19,29 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var profileRepo: ProfileRepository
 
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         profileRepo = ProfileRepository(this)
 
-        AdManager.initialize(this)
-        AdManager.loadBanner(this, binding.adContainerMain)
-        AdManager.loadInterstitial(this)
+        try {
+            AdManager.initialize(this)
+            AdManager.loadBanner(this, binding.adContainerMain)
+            AdManager.loadInterstitial(this)
+        } catch (e: Exception) { /* Ad init failure should not crash app */ }
 
         binding.btnEditProfile.setOnClickListener {
             startActivity(Intent(this, ProfileSetupActivity::class.java))
         }
         binding.btnOpenBrowser.setOnClickListener {
             if (!profileRepo.hasProfile()) {
-                Toast.makeText(this, "⚠️ প্রথমে প্রোফাইল সেট করুন!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "প্রথমে প্রোফাইল সেট করুন!", Toast.LENGTH_LONG).show()
                 return@setOnClickListener
             }
             startActivity(Intent(this, BrowserActivity::class.java))
@@ -68,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun openSite(url: String) {
         if (!profileRepo.hasProfile()) {
-            Toast.makeText(this, "⚠️ প্রথমে প্রোফাইল সেট করুন!", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "প্রথমে প্রোফাইল সেট করুন!", Toast.LENGTH_LONG).show()
             return
         }
         startActivity(Intent(this, BrowserActivity::class.java).putExtra(BrowserActivity.EXTRA_URL, url))
@@ -79,12 +88,12 @@ class MainActivity : AppCompatActivity() {
         val profile = profileRepo.getProfile()
         val hasProfile = profileRepo.hasProfile()
         if (hasProfile) {
-            binding.tvProfileStatus.text = "✅ প্রোফাইল সেট করা আছে"
+            binding.tvProfileStatus.text = "প্রোফাইল সেট করা আছে"
             binding.tvProfileStatus.setTextColor(getColor(R.color.green))
             binding.tvProfileName.text = profile.fullNameEn.ifEmpty { profile.fullNameBn }
             binding.tvProfileName.visibility = View.VISIBLE
         } else {
-            binding.tvProfileStatus.text = "❌ প্রোফাইল সেট করা নেই"
+            binding.tvProfileStatus.text = "প্রোফাইল সেট করা নেই"
             binding.tvProfileStatus.setTextColor(getColor(R.color.red))
             binding.tvProfileName.visibility = View.GONE
         }
