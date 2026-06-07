@@ -88,7 +88,7 @@ class ProfileSetupActivity : AppCompatActivity() {
             }
         }
         profileRepo.saveProfile(p)
-        Toast.makeText(this, "✅ প্রোফাইল সেভ হয়েছে!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "প্রোফাইল সেভ হয়েছে!", Toast.LENGTH_SHORT).show()
         finish()
     }
 }
