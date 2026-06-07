@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">সরকারি চাকরি অটোফিল</string>
+    <string name="accessibility_service_label">Gov Job Auto Fill</string>
+    <string name="accessibility_service_description">সরকারি চাকরির আবেদন ফর্ম স্বয়ংক্রিয়ভাবে পূরণ করতে এই সেবা ব্যবহার হয়।</string>
+</resources>
