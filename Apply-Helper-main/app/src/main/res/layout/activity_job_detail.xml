@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/bg_light">
+
+    <!-- Top Bar -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="56dp"
+        android:background="@color/primary" android:orientation="horizontal"
+        android:gravity="center_vertical" android:paddingStart="8dp" android:paddingEnd="12dp">
+        <Button android:id="@+id/btnBack" android:layout_width="wrap_content" android:layout_height="40dp"
+            android:backgroundTint="@color/primary" android:text="←" android:textColor="@color/white" android:textSize="18sp"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="চাকরির আবেদন" android:textColor="@color/white"
+            android:textSize="17sp" android:textStyle="bold" android:gravity="center"/>
+        <Button android:id="@+id/btnSaveJob" android:layout_width="wrap_content" android:layout_height="40dp"
+            android:backgroundTint="#FF2E7D32" android:text="💾 সেভ" android:textColor="@color/white" android:textSize="13sp"/>
+    </LinearLayout>
+
+    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:padding="16dp">
+
+            <!-- Job Info -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="💼 চাকরির তথ্য" android:textColor="@color/primary"
+                android:textSize="15sp" android:textStyle="bold" android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="পদের নাম *" android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etPostName"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="প্রতিষ্ঠানের নাম *" android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etOrganization"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="বিজ্ঞপ্তি নম্বর" android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etCircularNo"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="আবেদনের তারিখ (DD/MM/YYYY)" android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etApplicationDate"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="আবেদনের শেষ তারিখ" android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etDeadline"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="পরীক্ষার তারিখ" android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etExamDate"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="আবেদনের URL" android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etApplicationUrl"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:inputType="textUri"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="Tracking / Roll নম্বর" android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etTrackingId"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="সাইটের User ID" android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etUserId"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="সাইটের Password"
+                android:passwordToggleEnabled="true" android:layout_marginBottom="16dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etPassword"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:inputType="textPassword"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Status Spinners -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="📊 অবস্থা" android:textColor="@color/primary"
+                android:textSize="15sp" android:textStyle="bold" android:layout_marginBottom="8dp"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="আবেদনের অবস্থা:" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+            <Spinner android:id="@+id/spinnerStatus" android:layout_width="match_parent"
+                android:layout_height="48dp" android:layout_marginBottom="12dp"/>
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="পেমেন্টের অবস্থা:" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+            <Spinner android:id="@+id/spinnerPayment" android:layout_width="match_parent"
+                android:layout_height="48dp" android:layout_marginBottom="16dp"/>
+
+            <!-- Payment Info -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="💳 পেমেন্ট তথ্য" android:textColor="@color/primary"
+                android:textSize="15sp" android:textStyle="bold" android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="পরিমাণ (টাকা)" android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etPaymentAmount"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="পদ্ধতি (Teletalk/bKash)" android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etPaymentMethod"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="পেমেন্টের তারিখ" android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etPaymentDate"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="Transaction ID" android:layout_marginBottom="16dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etTransactionId"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Result & Notes -->
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="পরীক্ষার ফলাফল" android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etExamResult"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:hint="নোট / মন্তব্য" android:layout_marginBottom="24dp">
+                <com.google.android.material.textfield.TextInputEditText android:id="@+id/etNotes"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:inputType="textMultiLine" android:minLines="2"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
