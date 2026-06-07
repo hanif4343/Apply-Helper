@@ -20,7 +20,7 @@
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:backgroundTint="@color/primary"
+            android:background="@color/primary"
             android:text="←"
             android:textColor="@color/white"
             android:textSize="18sp"/>
@@ -83,7 +83,7 @@
                         android:id="@+id/btnPickPhoto"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:backgroundTint="@color/primary"
+                        android:background="@color/primary"
                         android:text="ছবি সিলেক্ট করুন"
                         android:textColor="@color/white"/>
 
@@ -158,7 +158,7 @@
                         android:id="@+id/btnPickSignature"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
-                        android:backgroundTint="#FF6A1B9A"
+                        android:background="#FF6A1B9A"
                         android:text="সিগনেচার সিলেক্ট করুন"
                         android:textColor="@color/white"/>
 
@@ -259,7 +259,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="44dp"
                         android:layout_marginTop="12dp"
-                        android:backgroundTint="#FF00796B"
+                        android:background="#FF00796B"
                         android:text="Apply করুন"
                         android:textColor="@color/white"
                         android:enabled="false"/>
