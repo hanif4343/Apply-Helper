@@ -42,14 +42,14 @@
             android:orientation="horizontal" android:layout_marginTop="10dp">
             <Button android:id="@+id/btnEditJob" android:layout_width="0dp" android:layout_height="36dp"
                 android:layout_weight="1" android:layout_marginEnd="6dp"
-                android:backgroundTint="@color/primary" android:text="Edit"
+                android:background="@color/primary" android:text="Edit"
                 android:textColor="@color/white" android:textSize="12sp"/>
             <Button android:id="@+id/btnGeneratePdf" android:layout_width="0dp" android:layout_height="36dp"
                 android:layout_weight="1" android:layout_marginEnd="6dp"
-                android:backgroundTint="#FF00796B" android:text="PDF"
+                android:background="#FF00796B" android:text="PDF"
                 android:textColor="@color/white" android:textSize="12sp"/>
             <Button android:id="@+id/btnDeleteJob" android:layout_width="0dp" android:layout_height="36dp"
-                android:layout_weight="1" android:backgroundTint="#FFC62828"
+                android:layout_weight="1" android:background="#FFC62828"
                 android:text="Delete" android:textColor="@color/white" android:textSize="12sp"/>
         </LinearLayout>
     </LinearLayout>
