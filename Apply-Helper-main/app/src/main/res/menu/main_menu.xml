@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menuHistory" android:title="📋 আবেদনের ইতিহাস"
+        app:showAsAction="never"/>
+    <item android:id="@+id/menuBrowser" android:title="🌐 Browser"
+        app:showAsAction="never"/>
+    <item android:id="@+id/menuProfile" android:title="👤 প্রোফাইল"
+        app:showAsAction="never"/>
+    <item android:id="@+id/menuMedia" android:title="📷 Media Vault"
+        app:showAsAction="never"/>
+    <item android:id="@+id/menuPrivacy" android:title="🔒 গোপনীয়তা নীতি"
+        app:showAsAction="never"/>
+    <item android:id="@+id/menuTerms" android:title="📜 শর্তাবলী"
+        app:showAsAction="never"/>
+</menu>
