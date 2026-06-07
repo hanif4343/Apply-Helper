@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:backgroundTint="@color/primary"
-                android:text="← ফিরে যান"
+                android:text="ফিরে যান"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:backgroundTint="@color/green"
-                android:text="💾 সেভ করুন"
+                android:text="সেভ করুন"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -61,7 +61,7 @@
 
         <!-- Section: Personal Info -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="👤 ব্যক্তিগত তথ্য" android:textStyle="bold" android:textSize="15sp"
+            android:text="ব্যক্তিগত তথ্য" android:textStyle="bold" android:textSize="15sp"
             android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
 
         <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="পূর্ণ নাম (বাংলায়)" android:layout_marginBottom="8dp">
@@ -98,7 +98,7 @@
 
         <!-- Section: Identity -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="🪪 পরিচয় তথ্য" android:textStyle="bold" android:textSize="15sp"
+            android:text="পরিচয় তথ্য" android:textStyle="bold" android:textSize="15sp"
             android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
 
         <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="জন্ম তারিখ (DD/MM/YYYY)" android:layout_marginBottom="8dp">
@@ -147,7 +147,7 @@
 
         <!-- Section: Present Address -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="📍 বর্তমান ঠিকানা" android:textStyle="bold" android:textSize="15sp"
+            android:text="বর্তমান ঠিকানা" android:textStyle="bold" android:textSize="15sp"
             android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
 
         <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="গ্রাম/মহল্লা" android:layout_marginBottom="8dp">
@@ -171,7 +171,7 @@
 
         <!-- Section: Permanent Address -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="🏠 স্থায়ী ঠিকানা" android:textStyle="bold" android:textSize="15sp"
+            android:text="স্থায়ী ঠিকানা" android:textStyle="bold" android:textSize="15sp"
             android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
 
         <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="গ্রাম/মহল্লা" android:layout_marginBottom="8dp">
@@ -195,7 +195,7 @@
 
         <!-- Section: SSC -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="📚 এসএসসি / সমমান" android:textStyle="bold" android:textSize="15sp"
+            android:text="এসএসসি / সমমান" android:textStyle="bold" android:textSize="15sp"
             android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
 
         <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="বোর্ড" android:layout_marginBottom="8dp">
@@ -216,7 +216,7 @@
 
         <!-- Section: HSC -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="📚 এইচএসসি / সমমান" android:textStyle="bold" android:textSize="15sp"
+            android:text="এইচএসসি / সমমান" android:textStyle="bold" android:textSize="15sp"
             android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
 
         <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="বোর্ড" android:layout_marginBottom="8dp">
@@ -237,7 +237,7 @@
 
         <!-- Section: Graduation -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="🎓 স্নাতক / স্নাতকোত্তর" android:textStyle="bold" android:textSize="15sp"
+            android:text="স্নাতক / স্নাতকোত্তর" android:textStyle="bold" android:textSize="15sp"
             android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
 
         <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="ডিগ্রির নাম (BSc/BA/BBA)" android:layout_marginBottom="8dp">
@@ -262,7 +262,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:backgroundTint="@color/green"
-            android:text="💾 প্রোফাইল সেভ করুন"
+            android:text="প্রোফাইল সেভ করুন"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
