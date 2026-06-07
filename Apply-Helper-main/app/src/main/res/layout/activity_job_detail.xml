@@ -8,12 +8,12 @@
         android:background="@color/primary" android:orientation="horizontal"
         android:gravity="center_vertical" android:paddingStart="8dp" android:paddingEnd="12dp">
         <Button android:id="@+id/btnBack" android:layout_width="wrap_content" android:layout_height="40dp"
-            android:backgroundTint="@color/primary" android:text="←" android:textColor="@color/white" android:textSize="18sp"/>
+            android:background="@color/primary" android:text="←" android:textColor="@color/white" android:textSize="18sp"/>
         <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
             android:text="চাকরির আবেদন" android:textColor="@color/white"
             android:textSize="17sp" android:textStyle="bold" android:gravity="center"/>
         <Button android:id="@+id/btnSaveJob" android:layout_width="wrap_content" android:layout_height="40dp"
-            android:backgroundTint="#FF2E7D32" android:text="সেভ" android:textColor="@color/white" android:textSize="13sp"/>
+            android:background="#FF2E7D32" android:text="সেভ" android:textColor="@color/white" android:textSize="13sp"/>
     </LinearLayout>
 
     <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
