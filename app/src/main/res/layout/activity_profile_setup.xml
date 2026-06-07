@@ -47,6 +47,18 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
+        <!-- Media Vault Integration Button (Fixed Unresolved reference: btnOpenMediaVault) -->
+        <Button
+            android:id="@+id/btnOpenMediaVault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/primary"
+            android:text="📁 মিডিয়া ভল্ট ওপেন করুন"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
         <!-- Section: Personal Info -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="👤 ব্যক্তিগত তথ্য" android:textStyle="bold" android:textSize="15sp"
@@ -254,8 +266,15 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="16dp"
             android:onClick="onSaveBottomClicked" />
+
+        <!-- Ad Container Layout (Fixed Unresolved reference: adContainerProfile) -->
+        <FrameLayout
+            android:id="@+id/adContainerProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp" />
 
     </LinearLayout>
 </ScrollView>
