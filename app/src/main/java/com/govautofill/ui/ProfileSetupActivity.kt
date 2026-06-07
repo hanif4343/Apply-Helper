@@ -1,11 +1,13 @@
 package com.govautofill.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.govautofill.databinding.ActivityProfileSetupBinding
 import com.govautofill.model.UserProfile
+import com.govautofill.utils.AdManager
 import com.govautofill.utils.ProfileRepository
 
 class ProfileSetupActivity : AppCompatActivity() {
@@ -21,6 +23,11 @@ class ProfileSetupActivity : AppCompatActivity() {
         loadProfile()
         binding.btnSave.setOnClickListener { saveProfile() }
         binding.btnBack.setOnClickListener { finish() }
+        binding.btnOpenMediaVault.setOnClickListener {
+            startActivity(Intent(this, MediaVaultActivity::class.java))
+        }
+        // Banner ad below form
+        AdManager.loadBanner(this, binding.adContainerProfile)
     }
 
     fun onSaveBottomClicked(view: View) { saveProfile() }
