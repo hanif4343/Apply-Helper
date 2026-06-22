@@ -2,12 +2,11 @@ package com.govautofill.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.http.SslError
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.webkit.*
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +22,7 @@ class BrowserActivity : AppCompatActivity() {
     private lateinit var profileRepo: ProfileRepository
     private lateinit var bookmarkManager: BookmarkManager
     private var webViewReady = false
+    private var lastTypedUrl = ""
 
     companion object {
         const val EXTRA_URL = "extra_url"
@@ -52,40 +52,51 @@ class BrowserActivity : AppCompatActivity() {
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebView() {
-        try {
-            with(binding.webView.settings) {
-                javaScriptEnabled = true
-                domStorageEnabled = true
-                loadWithOverviewMode = true
-                useWideViewPort = true
-                builtInZoomControls = true
-                displayZoomControls = false
-                setSupportZoom(true)
-                mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
-            }
-        } catch (e: Exception) { }
+        with(binding.webView.settings) {
+            javaScriptEnabled = true
+            domStorageEnabled = true
+            loadWithOverviewMode = true
+            useWideViewPort = true
+            builtInZoomControls = true
+            displayZoomControls = false
+            setSupportZoom(true)
+            databaseEnabled = true
+            cacheMode = WebSettings.LOAD_DEFAULT
+            mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+            // Chrome UA — govt site গুলো এতে ঠিকমতো respond করে
+            userAgentString = "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36"
+        }
 
         binding.webView.webViewClient = object : WebViewClient() {
+
             override fun onPageStarted(view: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
                 webViewReady = false
                 binding.progressBar.visibility = View.VISIBLE
-                // শুধু page load এর সময় URL bar আপডেট করো — user typing এর সময় না
+                // user typing না করলেই URL bar আপডেট করো
+                if (lastTypedUrl.isEmpty()) {
+                    binding.etUrl.setText(url)
+                }
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 webViewReady = true
+                lastTypedUrl = ""
                 binding.progressBar.visibility = View.INVISIBLE
-                if (!binding.etUrl.isFocused) {
-                    binding.etUrl.setText(url)
-                }
+                binding.etUrl.setText(url)
                 detectFormAndShowButton()
             }
 
+            // সব link একই WebView এ খোলো
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
                 val url = request?.url?.toString() ?: return false
-                // সব link একই WebView এ খোলো
                 view?.loadUrl(url)
                 return true
+            }
+
+            // SSL certificate error — govt site গুলোর জন্য proceed
+            @SuppressLint("WebViewClientOnReceivedSslError")
+            override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+                handler?.proceed()
             }
 
             override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
@@ -101,45 +112,39 @@ class BrowserActivity : AppCompatActivity() {
     }
 
     private fun setupSearchBar() {
-        // Go বাটনে click করলে — EditText এর current text সরাসরি পড়ে load করো
-        binding.btnGo.setOnClickListener {
-            navigateToInput()
-        }
-
-        // Keyboard এর "Go" / "Done" বাটনেও কাজ করবে
-        binding.etUrl.setOnEditorActionListener { v, _, _ ->
-            navigateToInput()
-            true
-        }
-
-        // EditText এ click করলে সব text select হবে — সহজে মুছে নতুন লেখা যাবে
+        // EditText এ click করলে সব text select
         binding.etUrl.setOnClickListener {
             binding.etUrl.selectAll()
         }
+
+        // Keyboard এর Go বাটন
+        binding.etUrl.setOnEditorActionListener { _, _, _ ->
+            navigateTo(binding.etUrl.text.toString())
+            true
+        }
+
+        // Go বাটন
+        binding.btnGo.setOnClickListener {
+            navigateTo(binding.etUrl.text.toString())
+        }
     }
 
-    private fun navigateToInput() {
-        // EditText থেকে text নাও, invisible/special chars বাদ দাও
-        val raw = binding.etUrl.text?.toString() ?: ""
-        val input = raw.replace("\u200b", "").replace("\u00a0", "").trim()
-
-        if (input.isEmpty()) {
+    private fun navigateTo(input: String) {
+        val text = input.trim()
+        if (text.isEmpty()) {
             Toast.makeText(this, "কিছু লিখুন", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val url = buildUrl(input)
+        val url = when {
+            text.startsWith("http://") || text.startsWith("https://") -> text
+            text.contains(".") && !text.contains(" ") -> "https://$text"
+            else -> "https://www.google.com/search?q=${text.replace(" ", "+")}"
+        }
+
+        lastTypedUrl = url
         hideKeyboard()
         binding.webView.loadUrl(url)
-    }
-
-    private fun buildUrl(input: String): String {
-        // https:// বা http:// দিয়ে শুরু হলে সরাসরি load
-        if (input.startsWith("http://") || input.startsWith("https://")) return input
-        // .com .bd .org ইত্যাদি থাকলে website হিসেবে ধরো
-        // dot আছে এবং space নেই = domain/URL
-        return if (input.contains(".") && !input.contains(" ")) "https://$input"
-        else "https://www.google.com/search?q=${input.replace(" ", "+")}"
     }
 
     private fun detectFormAndShowButton() {
@@ -198,19 +203,18 @@ class BrowserActivity : AppCompatActivity() {
             Toast.makeText(this, "কোনো bookmark নেই", Toast.LENGTH_SHORT).show()
             return
         }
-        val titles = bookmarks.map { it.title }.toTypedArray()
         AlertDialog.Builder(this)
             .setTitle("Bookmarks")
-            .setItems(titles) { _, which ->
+            .setItems(bookmarks.map { it.title }.toTypedArray()) { _, which ->
                 binding.webView.loadUrl(bookmarks[which].url)
             }
             .setNegativeButton("বন্ধ", null)
             .setNeutralButton("Edit") { _, _ ->
-                val editTitles = bookmarks.map { "❌ ${it.title}" }.toTypedArray()
+                val bm = bookmarkManager.getBookmarks()
                 AlertDialog.Builder(this)
                     .setTitle("Bookmark মুছুন")
-                    .setItems(editTitles) { _, i ->
-                        bookmarkManager.removeBookmark(bookmarks[i].url)
+                    .setItems(bm.map { "❌ ${it.title}" }.toTypedArray()) { _, i ->
+                        bookmarkManager.removeBookmark(bm[i].url)
                         Toast.makeText(this, "মুছে গেছে", Toast.LENGTH_SHORT).show()
                     }
                     .setNegativeButton("বন্ধ", null).show()
