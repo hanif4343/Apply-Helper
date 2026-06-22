@@ -4,9 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.webkit.*
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -29,8 +30,6 @@ class BrowserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // ViewBinding inflate — try/catch যাতে inflate error-এও crash না হয়
         try {
             binding = ActivityBrowserBinding.inflate(layoutInflater)
             setContentView(binding.root)
@@ -44,7 +43,7 @@ class BrowserActivity : AppCompatActivity() {
         bookmarkManager = BookmarkManager(this)
 
         setupWebView()
-        setupUrlBar()
+        setupSearchBar()
         setupButtons()
 
         val startUrl = intent.getStringExtra(EXTRA_URL) ?: "https://ejobs.gov.bd"
@@ -64,38 +63,74 @@ class BrowserActivity : AppCompatActivity() {
                 setSupportZoom(true)
                 mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
             }
-        } catch (e: Exception) { /* ignore settings errors */ }
+        } catch (e: Exception) { }
 
         binding.webView.webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
-                try {
-                    webViewReady = false
-                    binding.progressBar.visibility = View.VISIBLE
+                webViewReady = false
+                binding.progressBar.visibility = View.VISIBLE
+                // শুধু page load এর সময় URL bar আপডেট করো — user typing এর সময় না
+                if (!binding.etUrl.isFocused) {
                     binding.etUrl.setText(url)
-                } catch (e: Exception) { }
+                }
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
-                try {
-                    webViewReady = true
-                    binding.progressBar.visibility = View.INVISIBLE
+                webViewReady = true
+                binding.progressBar.visibility = View.INVISIBLE
+                if (!binding.etUrl.isFocused) {
                     binding.etUrl.setText(url)
-                    detectFormAndShowButton()
-                } catch (e: Exception) { }
+                }
+                detectFormAndShowButton()
             }
 
             override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?) = false
 
             override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
-                try { binding.progressBar.visibility = View.INVISIBLE } catch (e: Exception) { }
+                binding.progressBar.visibility = View.INVISIBLE
             }
         }
 
         binding.webView.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
-                try { binding.progressBar.progress = newProgress } catch (e: Exception) { }
+                binding.progressBar.progress = newProgress
             }
         }
+    }
+
+    private fun setupSearchBar() {
+        // Go বাটনে click করলে — EditText এর current text সরাসরি পড়ে load করো
+        binding.btnGo.setOnClickListener {
+            navigateToInput()
+        }
+
+        // Keyboard এর "Go" / "Done" বাটনেও কাজ করবে
+        binding.etUrl.setOnEditorActionListener { v, _, _ ->
+            navigateToInput()
+            true
+        }
+
+        // EditText এ click করলে সব text select হবে — সহজে মুছে নতুন লেখা যাবে
+        binding.etUrl.setOnClickListener {
+            binding.etUrl.selectAll()
+        }
+    }
+
+    private fun navigateToInput() {
+        val input = binding.etUrl.text?.toString()?.trim() ?: ""
+        if (input.isEmpty()) {
+            Toast.makeText(this, "কিছু লিখুন", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val url = when {
+            input.startsWith("http://") || input.startsWith("https://") -> input
+            input.contains(".") -> "https://$input"
+            else -> "https://www.google.com/search?q=${input.replace(" ", "+")}"
+        }
+
+        hideKeyboard()
+        binding.webView.loadUrl(url)
     }
 
     private fun detectFormAndShowButton() {
@@ -105,146 +140,84 @@ class BrowserActivity : AppCompatActivity() {
                 "(function(){ try { return document.querySelectorAll('input[type=\"text\"],input[type=\"email\"],input[type=\"tel\"],input[type=\"number\"],input:not([type])').length; } catch(e){ return 0; } })()"
             ) { result ->
                 runOnUiThread {
-                    try {
-                        val count = result?.trim()?.toIntOrNull() ?: 0
-                        binding.fabFill.visibility = if (count > 0) View.VISIBLE else View.GONE
-                    } catch (e: Exception) { }
+                    val count = result?.trim()?.toIntOrNull() ?: 0
+                    binding.fabFill.visibility = if (count > 0) View.VISIBLE else View.GONE
                 }
             }
-        } catch (e: Exception) { }
-    }
-
-    private fun setupUrlBar() {
-        // Text change listener to preserve typed URL even if focus is lost
-        binding.etUrl.addTextChangedListener(object : android.text.TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                binding.etUrl.tag = s?.toString() ?: ""
-            }
-            override fun afterTextChanged(s: android.text.Editable?) {}
-        })
-
-        binding.etUrl.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_DONE) {
-                loadUserUrl(); true
-            } else false
-        }
-
-        binding.btnGo.setOnClickListener {
-            // Restore text from tag if focus loss cleared it
-            val saved = (binding.etUrl.tag as? String) ?: ""
-            if (saved.isNotEmpty() && binding.etUrl.text.toString().trim().isEmpty()) {
-                binding.etUrl.setText(saved)
-            }
-            loadUserUrl()
-        }
-    }
-
-    private fun loadUserUrl() {
-        try {
-            var url = binding.etUrl.text.toString().trim()
-            if (url.isEmpty()) {
-                url = (binding.etUrl.tag as? String)?.trim() ?: ""
-            }
-            if (url.isEmpty()) return
-            url = when {
-                url.startsWith("http://") || url.startsWith("https://") -> url
-                url.contains(".") -> "https://$url"
-                else -> "https://www.google.com/search?q=${url.replace(" ", "+")}"
-            }
-            binding.webView.loadUrl(url)
-            hideKeyboard()
         } catch (e: Exception) { }
     }
 
     private fun setupButtons() {
         binding.btnBack.setOnClickListener {
-            try {
-                if (binding.webView.canGoBack()) binding.webView.goBack() else finish()
-            } catch (e: Exception) { finish() }
+            if (binding.webView.canGoBack()) binding.webView.goBack() else finish()
         }
         binding.btnForward.setOnClickListener {
-            try { if (binding.webView.canGoForward()) binding.webView.goForward() } catch (e: Exception) { }
+            if (binding.webView.canGoForward()) binding.webView.goForward()
         }
         binding.btnRefresh.setOnClickListener {
-            try { binding.webView.reload() } catch (e: Exception) { }
+            binding.webView.reload()
         }
         binding.btnHome.setOnClickListener { finish() }
         binding.btnBookmarks.setOnClickListener { showBookmarksDialog() }
         binding.btnAddBookmark.setOnClickListener {
-            try {
-                val url = binding.webView.url ?: return@setOnClickListener
-                val title = binding.webView.title ?: url
-                bookmarkManager.addBookmark(Bookmark(title, url))
-                Toast.makeText(this, "Bookmark যোগ হয়েছে", Toast.LENGTH_SHORT).show()
-            } catch (e: Exception) { }
+            val url = binding.webView.url ?: return@setOnClickListener
+            val title = binding.webView.title ?: url
+            bookmarkManager.addBookmark(Bookmark(title, url))
+            Toast.makeText(this, "Bookmark যোগ হয়েছে", Toast.LENGTH_SHORT).show()
         }
         binding.fabFill.setOnClickListener { fillForm() }
     }
 
     private fun fillForm() {
-        try {
-            val profile = profileRepo.getProfile()
-            if (profile.fullNameEn.isEmpty() && profile.nidNo.isEmpty()) {
-                Toast.makeText(this, "প্রথমে প্রোফাইল সেট করুন", Toast.LENGTH_LONG).show()
-                return
+        val profile = profileRepo.getProfile()
+        if (profile.fullNameEn.isEmpty() && profile.nidNo.isEmpty()) {
+            Toast.makeText(this, "প্রথমে প্রোফাইল সেট করুন", Toast.LENGTH_LONG).show()
+            return
+        }
+        val js = JsFormFiller.buildScript(profile)
+        binding.webView.evaluateJavascript(js) { result ->
+            runOnUiThread {
+                val msg = result?.trim()?.replace("\"", "") ?: "পূরণ সম্পন্ন"
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             }
-            val js = JsFormFiller.buildScript(profile)
-            binding.webView.evaluateJavascript(js) { result ->
-                runOnUiThread {
-                    try {
-                        val msg = result?.trim()?.replace("\"", "") ?: "পূরণ সম্পন্ন"
-                        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
-                    } catch (e: Exception) { }
-                }
-            }
-        } catch (e: Exception) {
-            Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun showBookmarksDialog() {
-        try {
-            val bookmarks = bookmarkManager.getBookmarks()
-            if (bookmarks.isEmpty()) {
-                Toast.makeText(this, "কোনো bookmark নেই", Toast.LENGTH_SHORT).show()
-                return
+        val bookmarks = bookmarkManager.getBookmarks()
+        if (bookmarks.isEmpty()) {
+            Toast.makeText(this, "কোনো bookmark নেই", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val titles = bookmarks.map { it.title }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle("Bookmarks")
+            .setItems(titles) { _, which ->
+                binding.webView.loadUrl(bookmarks[which].url)
             }
-            val titles = bookmarks.map { it.title }.toTypedArray()
-            AlertDialog.Builder(this)
-                .setTitle("Bookmarks")
-                .setItems(titles) { _, which ->
-                    try { binding.webView.loadUrl(bookmarks[which].url) } catch (e: Exception) { }
-                }
-                .setNegativeButton("বন্ধ", null)
-                .setNeutralButton("Edit") { _, _ ->
-                    val editTitles = bookmarks.map { "X  ${it.title}" }.toTypedArray()
-                    AlertDialog.Builder(this)
-                        .setTitle("Bookmark মুছুন")
-                        .setItems(editTitles) { _, i ->
-                            bookmarkManager.removeBookmark(bookmarks[i].url)
-                            Toast.makeText(this, "মুছে গেছে", Toast.LENGTH_SHORT).show()
-                        }
-                        .setNegativeButton("বন্ধ", null).show()
-                }
-                .show()
-        } catch (e: Exception) { }
+            .setNegativeButton("বন্ধ", null)
+            .setNeutralButton("Edit") { _, _ ->
+                val editTitles = bookmarks.map { "❌ ${it.title}" }.toTypedArray()
+                AlertDialog.Builder(this)
+                    .setTitle("Bookmark মুছুন")
+                    .setItems(editTitles) { _, i ->
+                        bookmarkManager.removeBookmark(bookmarks[i].url)
+                        Toast.makeText(this, "মুছে গেছে", Toast.LENGTH_SHORT).show()
+                    }
+                    .setNegativeButton("বন্ধ", null).show()
+            }
+            .show()
     }
 
     private fun hideKeyboard() {
-        try {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(binding.etUrl.windowToken, 0)
-        } catch (e: Exception) { }
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.etUrl.windowToken, 0)
+        binding.etUrl.clearFocus()
     }
 
     override fun onBackPressed() {
-        try {
-            if (binding.webView.canGoBack()) binding.webView.goBack()
-            else super.onBackPressed()
-        } catch (e: Exception) {
-            super.onBackPressed()
-        }
+        if (binding.webView.canGoBack()) binding.webView.goBack()
+        else super.onBackPressed()
     }
 
     override fun onDestroy() {
