@@ -26,7 +26,6 @@ class ProfileSetupActivity : AppCompatActivity() {
         binding.btnOpenMediaVault.setOnClickListener {
             startActivity(Intent(this, MediaVaultActivity::class.java))
         }
-        // Banner ad below form
         AdManager.loadBanner(this, binding.adContainerProfile)
     }
 
@@ -89,7 +88,7 @@ class ProfileSetupActivity : AppCompatActivity() {
             }
         }
         profileRepo.saveProfile(p)
-        Toast.makeText(this, "✅ প্রোফাইল সেভ হয়েছে!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "প্রোফাইল সেভ হয়েছে!", Toast.LENGTH_SHORT).show()
         finish()
     }
 }
