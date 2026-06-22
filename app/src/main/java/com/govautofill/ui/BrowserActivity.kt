@@ -115,17 +115,37 @@ class BrowserActivity : AppCompatActivity() {
     }
 
     private fun setupUrlBar() {
+        // Text change listener to preserve typed URL even if focus is lost
+        binding.etUrl.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                binding.etUrl.tag = s?.toString() ?: ""
+            }
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
+
         binding.etUrl.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_DONE) {
                 loadUserUrl(); true
             } else false
         }
-        binding.btnGo.setOnClickListener { loadUserUrl() }
+
+        binding.btnGo.setOnClickListener {
+            // Restore text from tag if focus loss cleared it
+            val saved = (binding.etUrl.tag as? String) ?: ""
+            if (saved.isNotEmpty() && binding.etUrl.text.toString().trim().isEmpty()) {
+                binding.etUrl.setText(saved)
+            }
+            loadUserUrl()
+        }
     }
 
     private fun loadUserUrl() {
         try {
             var url = binding.etUrl.text.toString().trim()
+            if (url.isEmpty()) {
+                url = (binding.etUrl.tag as? String)?.trim() ?: ""
+            }
             if (url.isEmpty()) return
             url = when {
                 url.startsWith("http://") || url.startsWith("https://") -> url
