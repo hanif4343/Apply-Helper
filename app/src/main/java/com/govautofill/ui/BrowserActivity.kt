@@ -114,20 +114,27 @@ class BrowserActivity : AppCompatActivity() {
     }
 
     private fun navigateToInput() {
-        val input = binding.etUrl.text?.toString()?.trim() ?: ""
+        // EditText থেকে text নাও, invisible/special chars বাদ দাও
+        val raw = binding.etUrl.text?.toString() ?: ""
+        val input = raw.replace("\u200b", "").replace("\u00a0", "").trim()
+
         if (input.isEmpty()) {
             Toast.makeText(this, "কিছু লিখুন", Toast.LENGTH_SHORT).show()
             return
         }
 
-        val url = when {
-            input.startsWith("http://") || input.startsWith("https://") -> input
-            input.contains(".") -> "https://$input"
-            else -> "https://www.google.com/search?q=${input.replace(" ", "+")}"
-        }
-
+        val url = buildUrl(input)
         hideKeyboard()
         binding.webView.loadUrl(url)
+    }
+
+    private fun buildUrl(input: String): String {
+        // https:// বা http:// দিয়ে শুরু হলে সরাসরি load
+        if (input.startsWith("http://") || input.startsWith("https://")) return input
+        // .com .bd .org ইত্যাদি থাকলে website হিসেবে ধরো
+        val domainPattern = Regex("^[\w\-]+(\.[\w\-]+)+(/.*)?\$")
+        return if (domainPattern.matches(input)) "https://$input"
+        else "https://www.google.com/search?q=${input.replace(" ", "+")}"
     }
 
     private fun detectFormAndShowButton() {
