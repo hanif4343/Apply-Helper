@@ -46,7 +46,7 @@ class BrowserActivity : AppCompatActivity() {
         setupSearchBar()
         setupButtons()
 
-        val startUrl = intent.getStringExtra(EXTRA_URL) ?: "https://ejobs.gov.bd"
+        val startUrl = intent.getStringExtra(EXTRA_URL) ?: "https://www.google.com"
         binding.webView.loadUrl(startUrl)
     }
 
@@ -70,9 +70,6 @@ class BrowserActivity : AppCompatActivity() {
                 webViewReady = false
                 binding.progressBar.visibility = View.VISIBLE
                 // শুধু page load এর সময় URL bar আপডেট করো — user typing এর সময় না
-                if (!binding.etUrl.isFocused) {
-                    binding.etUrl.setText(url)
-                }
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
