@@ -81,7 +81,12 @@ class BrowserActivity : AppCompatActivity() {
                 detectFormAndShowButton()
             }
 
-            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?) = false
+            override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+                val url = request?.url?.toString() ?: return false
+                // সব link একই WebView এ খোলো
+                view?.loadUrl(url)
+                return true
+            }
 
             override fun onReceivedError(view: WebView?, request: WebResourceRequest?, error: WebResourceError?) {
                 binding.progressBar.visibility = View.INVISIBLE
@@ -132,8 +137,8 @@ class BrowserActivity : AppCompatActivity() {
         // https:// বা http:// দিয়ে শুরু হলে সরাসরি load
         if (input.startsWith("http://") || input.startsWith("https://")) return input
         // .com .bd .org ইত্যাদি থাকলে website হিসেবে ধরো
-        val domainPattern = Regex("^[\w\-]+(\.[\w\-]+)+(/.*)?\$")
-        return if (domainPattern.matches(input)) "https://$input"
+        // dot আছে এবং space নেই = domain/URL
+        return if (input.contains(".") && !input.contains(" ")) "https://$input"
         else "https://www.google.com/search?q=${input.replace(" ", "+")}"
     }
 
