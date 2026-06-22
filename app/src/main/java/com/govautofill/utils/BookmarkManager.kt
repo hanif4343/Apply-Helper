@@ -11,7 +11,7 @@ class BookmarkManager(context: Context) {
     private val gson = Gson()
 
     private val defaultBookmarks = listOf(
-        Bookmark("BPSC", "https://bpsc.teletalk.com.bd", "📋"),
+        Bookmark("Social", "https://dss.teletalk.com.bd/", "📋"),
         Bookmark("Teletalk Jobs", "https://career.teletalk.com.bd", "📱"),
         Bookmark("Bangladesh Bank", "https://erecruitment.bb.org.bd", "🏦"),
         Bookmark("PSC (পিএসসি)", "https://psc.teletalk.com.bd", "🏛️"),
