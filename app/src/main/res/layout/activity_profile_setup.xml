@@ -28,6 +28,7 @@
                 android:textSize="12sp" />
 
             <TextView
+                android:id="@+id/tvSetupTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -58,6 +59,14 @@
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
+
+        <!-- Profile label — একাধিক প্রোফাইল আলাদা করার জন্য -->
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="এই প্রোফাইলের নাম (যেমন: নিজের প্রোফাইল, ভাইয়ের প্রোফাইল)"
+            android:layout_marginBottom="16dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary"
+                android:id="@+id/etProfileLabel" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Section: Personal Info -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
