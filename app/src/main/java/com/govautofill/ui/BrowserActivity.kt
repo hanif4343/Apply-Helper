@@ -171,6 +171,7 @@ class BrowserActivity : AppCompatActivity() {
         binding.btnRefresh.setOnClickListener {
             binding.webView.reload()
         }
+        binding.btnRefresh.setOnLongClickListener { runDebugScan(); true }
         binding.btnHome.setOnClickListener { finish() }
         binding.btnBookmarks.setOnClickListener { showBookmarksDialog() }
         binding.btnAddBookmark.setOnClickListener {
@@ -214,6 +215,70 @@ class BrowserActivity : AppCompatActivity() {
                 Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    // ── Debug Scan — পেইজের সব <select> dropdown আর তাদের option list দেখায় ─────────
+    // (Refresh বাটনে long-press করলে চলে) — কোনো dropdown ঠিকমতো ফিল না হলে এটা চালিয়ে
+    // রিপোর্টটা কপি করে দেখাও, সেটা থেকে বোঝা যাবে আসল field-গুলোর নাম ও option কী কী
+    private fun runDebugScan() {
+        val js = """
+            (function() {
+              var s = document.querySelectorAll('select');
+              var L = ['মোট SELECT পাওয়া গেছে: ' + s.length];
+              s.forEach(function(e, i) {
+                var lb = '';
+                if (e.id) {
+                  var l = document.querySelector('label[for="' + e.id + '"]');
+                  if (l) lb = l.innerText;
+                }
+                if (!lb && e.previousElementSibling) lb = (e.previousElementSibling.innerText || '').slice(0, 30);
+                if (!lb) {
+                  var p = e.parentElement;
+                  for (var k = 0; k < 4 && p; k++) {
+                    if (p.previousElementSibling) { lb = (p.previousElementSibling.innerText || '').slice(0, 30); if (lb) break; }
+                    p = p.parentElement;
+                  }
+                }
+                var o = [];
+                for (var j = 0; j < e.options.length; j++) o.push(e.options[j].text);
+                L.push((i + 1) + '. [' + lb.trim() + ']  name=' + (e.name || '-') + ' id=' + (e.id || '-') + '\n' + o.join(' | '));
+              });
+              return L.join('\n\n');
+            })();
+        """.trimIndent()
+
+        binding.webView.evaluateJavascript(js) { result ->
+            runOnUiThread {
+                val text = try {
+                    org.json.JSONTokener(result ?: "\"\"").nextValue().toString()
+                } catch (e: Exception) {
+                    result?.trim()?.removeSurrounding("\"") ?: "ফলাফল পাওয়া যায়নি"
+                }
+                showDebugResultDialog(text)
+            }
+        }
+    }
+
+    private fun showDebugResultDialog(text: String) {
+        val scrollView = android.widget.ScrollView(this)
+        val textView = android.widget.TextView(this).apply {
+            setText(text)
+            setPadding(24, 24, 24, 24)
+            textSize = 12f
+            setTextIsSelectable(true)
+        }
+        scrollView.addView(textView)
+
+        AlertDialog.Builder(this)
+            .setTitle("🔍 Debug Scan ফলাফল")
+            .setView(scrollView)
+            .setPositiveButton("Copy করুন") { _, _ ->
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                clipboard.setPrimaryClip(android.content.ClipData.newPlainText("debug_scan", text))
+                Toast.makeText(this, "Copy হয়েছে — এখন chat-এ paste করো", Toast.LENGTH_LONG).show()
+            }
+            .setNegativeButton("বন্ধ করুন", null)
+            .show()
     }
 
     private fun showBookmarksDialog() {
