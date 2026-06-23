@@ -180,10 +180,29 @@ class BrowserActivity : AppCompatActivity() {
             Toast.makeText(this, "Bookmark যোগ হয়েছে", Toast.LENGTH_SHORT).show()
         }
         binding.fabFill.setOnClickListener { fillForm() }
+        binding.fabFill.setOnLongClickListener { showProfileSwitcherThenFill(); true }
+    }
+
+    // ── একাধিক প্রোফাইল থাকলে — FAB এ long-press করে কোনটা দিয়ে fill হবে বেছে নেওয়া যায় ──
+    private fun showProfileSwitcherThenFill() {
+        val entries = profileRepo.getAll()
+        if (entries.size <= 1) {
+            Toast.makeText(this, "একটার বেশি প্রোফাইল নেই — প্রোফাইল ম্যানেজ থেকে নতুন প্রোফাইল যোগ করুন", Toast.LENGTH_LONG).show()
+            return
+        }
+        val labels = entries.map { it.label.ifEmpty { "নামহীন প্রোফাইল" } }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle("কোন প্রোফাইল দিয়ে ফর্ম পূরণ করবেন?")
+            .setItems(labels) { _, which ->
+                profileRepo.setActiveProfileId(entries[which].id)
+                Toast.makeText(this, "\"${labels[which]}\" দিয়ে পূরণ হচ্ছে...", Toast.LENGTH_SHORT).show()
+                fillForm()
+            }
+            .show()
     }
 
     private fun fillForm() {
-        val profile = profileRepo.getProfile()
+        val profile = profileRepo.getActiveProfile()
         if (profile.fullNameEn.isEmpty() && profile.nidNo.isEmpty()) {
             Toast.makeText(this, "প্রথমে প্রোফাইল সেট করুন", Toast.LENGTH_LONG).show()
             return
