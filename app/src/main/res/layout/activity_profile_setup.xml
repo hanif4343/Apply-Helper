@@ -48,225 +48,359 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <!-- Media Vault Integration Button (Fixed Unresolved reference: btnOpenMediaVault) -->
+        <!-- Media Vault Button -->
         <Button
             android:id="@+id/btnOpenMediaVault"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:background="@color/primary"
-            android:text="📁 মিডিয়া ভল্ট ওপেন করুন"
+            android:text="📁 মিডিয়া ভল্ট ওপেন করুন"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <!-- Profile label — একাধিক প্রোফাইল আলাদা করার জন্য -->
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:hint="এই প্রোফাইলের নাম (যেমন: নিজের প্রোফাইল, ভাইয়ের প্রোফাইল)"
+        <!-- Profile Label -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="এই প্রোফাইলের নাম (যেমন: নিজের প্রোফাইল, ভাইয়ের প্রোফাইল)"
             android:layout_marginBottom="16dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary"
-                android:id="@+id/etProfileLabel" android:layout_width="match_parent" android:layout_height="wrap_content" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:textColor="@color/text_primary"
+                android:id="@+id/etProfileLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Section: Personal Info -->
+        <!-- ══════════════════════════════════════════
+             SECTION: Basic Information (ব্যক্তিগত তথ্য)
+             ══════════════════════════════════════════ -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="ব্যক্তিগত তথ্য" android:textStyle="bold" android:textSize="15sp"
             android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
 
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="পূর্ণ নাম (বাংলায়)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etFullNameBn" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textPersonName" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Full Name (English)" android:layout_marginBottom="8dp">
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Applicant's Name (English)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etFullNameEn" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="পিতার নাম (বাংলায়)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etFatherNameBn" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="আবেদনকারীর নাম (বাংলায়)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etFullNameBn" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Father's Name (English)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etFatherNameEn" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="মাতার নাম (বাংলায়)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etMotherNameBn" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="পিতার নাম (বাংলায়)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etFatherNameBn" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Mother's Name (English)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etMotherNameEn" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="স্বামী/স্ত্রীর নাম (বাংলায়) - প্রযোজ্য হলে" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSpouseNameBn" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="মাতার নাম (বাংলায়)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etMotherNameBn" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Spouse Name (English)" android:layout_marginBottom="16dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSpouseNameEn" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Care Of — খালি রাখলে Father's Name বসবে" android:layout_marginBottom="16dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etCareOf" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Section: Identity -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="পরিচয় তথ্য" android:textStyle="bold" android:textSize="15sp"
-            android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="জন্ম তারিখ (DD/MM/YYYY)" android:layout_marginBottom="8dp">
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Date of Birth (DD/MM/YYYY)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etDob" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="date" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="জাতীয় পরিচয়পত্র নং (NID)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etNid" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="পাসপোর্ট নং (প্রযোজ্য হলে)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPassport" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="মোবাইল নং" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etMobile" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="phone" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="ইমেইল" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etEmail" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="ধর্ম (যেমন: ইসলাম)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etReligion" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="রক্তের গ্রুপ (যেমন: B+)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etBloodGroup" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="লিঙ্গ (Male/Female)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGender" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="জাতীয়তা" android:layout_marginBottom="8dp">
+        <!-- Nationality — website-এ dropdown: Bangladeshi -->
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Nationality (যেমন: Bangladeshi)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etNationality" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="বৈবাহিক অবস্থা (Married/Unmarried)" android:layout_marginBottom="8dp">
+        <!-- Religion — dropdown: Islam | Hinduism | Buddhism | Christianity | Other -->
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Religion (Islam / Hinduism / Buddhism / Christianity / Other)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etReligion" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Gender — dropdown: Male | Female | Third Gender -->
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Gender (Male / Female / Third Gender)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGender" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- National ID — dropdown: Yes/No + number field -->
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="National ID আছে? (Yes / No)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etNidStatus" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="National ID Number" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etNid" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Birth Registration — dropdown: Yes/No + number -->
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Birth Registration আছে? (Yes / No)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etBirthRegStatus" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Birth Registration Number" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etBirthRegNo" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Passport — dropdown: Yes/No + number -->
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Passport আছে? (Yes / No)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPassportStatus" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Passport Number (প্রযোজ্য হলে)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPassport" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Marital Status — dropdown: Single | Married | Other + Spouse Name -->
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Marital Status (Single / Married / Other)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etMarital" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="কোটা (Freedom Fighter/Women/None)" android:layout_marginBottom="16dp">
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Spouse Name (English) — বিবাহিত হলে" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSpouseNameEn" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="স্বামী/স্ত্রীর নাম (বাংলায়) — বিবাহিত হলে" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSpouseNameBn" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Mobile Number" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etMobile" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="phone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Confirm Mobile Number" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etConfirmMobile" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="phone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Email" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etEmail" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Quota -->
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Quota (Not Applicable / Freedom Fighter / Ethnic Minority...)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etQuota" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Section: Present Address -->
+        <!-- Departmental Status -->
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Departmental Status (Not Applicable / Govt. Employee...)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etDepartmentalStatus" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="রক্তের গ্রুপ (যেমন: B+)" android:layout_marginBottom="16dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etBloodGroup" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ══════════════════════════════════════════
+             SECTION: Present Address (বর্তমান ঠিকানা)
+             ══════════════════════════════════════════ -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="বর্তমান ঠিকানা" android:textStyle="bold" android:textSize="15sp"
+            android:text="বর্তমান ঠিকানা (Present Address)" android:textStyle="bold" android:textSize="15sp"
             android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
 
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="গ্রাম/মহল্লা" android:layout_marginBottom="8dp">
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Care Of" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etCareOf" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Village / Road / House / Flat" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPresentVillage" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="পোস্ট অফিস" android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Post Office" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPresentPostOffice" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="উপজেলা" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPresentUpazila" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="জেলা" android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="District (জেলা)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPresentDistrict" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="বিভাগ" android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Upazila / P.S. (উপজেলা)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPresentUpazila" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="বিভাগ (Division)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPresentDivision" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="পোস্ট কোড" android:layout_marginBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Post Code" android:layout_marginBottom="16dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPresentPostCode" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Section: Permanent Address -->
+        <!-- ══════════════════════════════════════════
+             SECTION: Permanent Address (স্থায়ী ঠিকানা)
+             ══════════════════════════════════════════ -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="স্থায়ী ঠিকানা" android:textStyle="bold" android:textSize="15sp"
+            android:text="স্থায়ী ঠিকানা (Permanent Address)" android:textStyle="bold" android:textSize="15sp"
             android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
 
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="গ্রাম/মহল্লা" android:layout_marginBottom="8dp">
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Care Of" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentCareOf" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Village / Road / House / Flat" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentVillage" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="পোস্ট অফিস" android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Post Office" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentPostOffice" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="উপজেলা" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentUpazila" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="জেলা" android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="District (জেলা)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentDistrict" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="বিভাগ" android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Upazila / P.S. (উপজেলা)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentUpazila" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="বিভাগ (Division)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentDivision" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="পোস্ট কোড" android:layout_marginBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Post Code" android:layout_marginBottom="16dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentPostCode" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Section: SSC -->
+        <!-- ══════════════════════════════════════════
+             SECTION: JSC / সমমান
+             ══════════════════════════════════════════ -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="এসএসসি / সমমান" android:textStyle="bold" android:textSize="15sp"
+            android:text="JSC / সমমান (যদি প্রযোজ্য হয়)" android:textStyle="bold" android:textSize="15sp"
             android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
 
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="বোর্ড" android:layout_marginBottom="8dp">
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Examination (JSC / JDC / Class Eight / Junior Scholarship...)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etJscExam" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Board (Dhaka / Rajshahi / Barishal...)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etJscBoard" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Roll No" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etJscRoll" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Result Type (GPA out of 5 / GPA out of 4 / Passed)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etJscResultType" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="GPA / Result" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etJscGpa" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Passing Year" android:layout_marginBottom="16dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etJscYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ══════════════════════════════════════════
+             SECTION: SSC / সমমান
+             ══════════════════════════════════════════ -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="SSC / সমমান" android:textStyle="bold" android:textSize="15sp"
+            android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Examination (S.S.C / Dakhil / O Level / SSC Vocational...)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscExam" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Group / Subject (Science / Humanities / Business...)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscGroup" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Board (Dhaka / Rajshahi / Barishal / Chattogram...)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscBoard" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="রোল নং" android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Roll No" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscRoll" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="রেজিস্ট্রেশন নং" android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Registration No" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscReg" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="পাসের বছর" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Result Type (GPA out of 5 / 1st Division / 2nd Division...)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscResultType" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="জিপিএ" android:layout_marginBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="GPA / Result" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscGpa" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Section: HSC -->
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Passing Year" android:layout_marginBottom="16dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ══════════════════════════════════════════
+             SECTION: HSC / সমমান
+             ══════════════════════════════════════════ -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="এইচএসসি / সমমান" android:textStyle="bold" android:textSize="15sp"
+            android:text="HSC / সমমান" android:textStyle="bold" android:textSize="15sp"
             android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
 
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="বোর্ড" android:layout_marginBottom="8dp">
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Examination (H.S.C / Alim / Diploma / A Level...)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscExam" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Group / Subject (Science / Humanities / Business...)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscGroup" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Board (Dhaka / Rajshahi / Barishal / Chattogram...)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscBoard" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="রোল নং" android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Roll No" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscRoll" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="রেজিস্ট্রেশন নং" android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Registration No" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscReg" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="পাসের বছর" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Result Type (GPA out of 5 / 1st Division / Passed...)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscResultType" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="জিপিএ" android:layout_marginBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="GPA / Result" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscGpa" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Section: Graduation -->
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Passing Year" android:layout_marginBottom="16dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- ══════════════════════════════════════════
+             SECTION: Graduation / সমমান
+             ══════════════════════════════════════════ -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="স্নাতক / স্নাতকোত্তর" android:textStyle="bold" android:textSize="15sp"
+            android:text="স্নাতক / সমমান (Graduation)" android:textStyle="bold" android:textSize="15sp"
             android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
 
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="ডিগ্রির নাম (BSc/BA/BBA)" android:layout_marginBottom="8dp">
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Examination (Honors / Pass / BBA / BSc Engineering...)" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradDegree" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="বিষয়" android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Subject / Degree" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradSubject" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="প্রতিষ্ঠানের নাম" android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="University / Institution" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradInstitution" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="পাসের বছর" android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Passing Year" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="ফলাফল (CGPA/Class)" android:layout_marginBottom="24dp">
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Result Type (CGPA out of 4 / 1st Class / 2nd Class / Passed...)" android:layout_marginBottom="8dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradResultType" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="CGPA / Result" android:layout_marginBottom="8dp">
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradResult" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Course Duration (03 Years / 04 Years / 05 Years)" android:layout_marginBottom="24dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradDuration" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Save Button Bottom -->
@@ -282,7 +416,6 @@
             android:layout_marginBottom="16dp"
             android:onClick="onSaveBottomClicked" />
 
-        <!-- Ad Container Layout (Fixed Unresolved reference: adContainerProfile) -->
         <FrameLayout
             android:id="@+id/adContainerProfile"
             android:layout_width="match_parent"
