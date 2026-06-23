@@ -7,7 +7,15 @@ object JsFormFiller {
     fun buildScript(profile: UserProfile): String {
         val p = profile
         fun esc(s: String) = s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n")
+
+        // NID/Birth Reg/Passport status strings
+        val nidStatus = if (p.nidNo.isNotBlank()) "Yes" else "No"
+        val bregStatus = if (p.birthCertificateNo.isNotBlank()) "Yes" else "No"
+        val passportStatus = if (p.passportNo.isNotBlank()) "Yes" else "No"
+
+        // Care of fallback
         val careOfVal = if (p.careOf.isNotBlank()) p.careOf else p.fatherNameEn.ifBlank { p.fatherNameBn }
+        val permCareOfVal = if (p.permanentCareOf.isNotBlank()) p.permanentCareOf else careOfVal
 
         return """
 (function() {
@@ -21,10 +29,14 @@ object JsFormFiller {
   var spouseEn     = "${esc(p.spouseNameEn)}";
   var spouseBn     = "${esc(p.spouseNameBn)}";
   var careOf       = "${esc(careOfVal)}";
+  var permCareOf   = "${esc(permCareOfVal)}";
   var dob          = "${esc(p.dateOfBirth)}";
   var nid          = "${esc(p.nidNo)}";
+  var nidStatus    = "${esc(nidStatus)}";
   var birthCertNo  = "${esc(p.birthCertificateNo)}";
+  var bregStatus   = "${esc(bregStatus)}";
   var passport     = "${esc(p.passportNo)}";
+  var passportStatus = "${esc(passportStatus)}";
   var mobile       = "${esc(p.mobileNo)}";
   var email        = "${esc(p.email)}";
   var religion     = "${esc(p.religion)}";
@@ -33,96 +45,147 @@ object JsFormFiller {
   var nationality  = "${esc(p.nationality)}";
   var marital      = "${esc(p.maritalStatus)}";
   var quota        = "${esc(p.quota)}";
+  var depStatus    = "${esc(p.departmentalStatus)}";
+
+  var pCareOf      = "${esc(careOfVal)}";
   var pVillage     = "${esc(p.presentVillage)}";
   var pPostOffice  = "${esc(p.presentPostOffice)}";
   var pUpazila     = "${esc(p.presentUpazila)}";
   var pDistrict    = "${esc(p.presentDistrict)}";
   var pDivision    = "${esc(p.presentDivision)}";
   var pPostCode    = "${esc(p.presentPostCode)}";
+
+  var sCareOf      = "${esc(permCareOfVal)}";
   var sVillage     = "${esc(p.permanentVillage)}";
   var sPostOffice  = "${esc(p.permanentPostOffice)}";
   var sUpazila     = "${esc(p.permanentUpazila)}";
   var sDistrict    = "${esc(p.permanentDistrict)}";
   var sDivision    = "${esc(p.permanentDivision)}";
   var sPostCode    = "${esc(p.permanentPostCode)}";
+
+  var jscExam      = "${esc(p.jscExam)}";
+  var jscBoard     = "${esc(p.jscBoard)}";
+  var jscRoll      = "${esc(p.jscRollNo)}";
+  var jscGpa       = "${esc(p.jscGpa)}";
+  var jscResultType = "${esc(p.jscResultType)}";
+  var jscYear      = "${esc(p.jscYear)}";
+
+  var sscExam      = "${esc(p.sscExam)}";
   var sscBoard     = "${esc(p.sscBoard)}";
   var sscRoll      = "${esc(p.sscRollNo)}";
   var sscReg       = "${esc(p.sscRegNo)}";
   var sscYear      = "${esc(p.sscYear)}";
   var sscGpa       = "${esc(p.sscGpa)}";
   var sscGroup     = "${esc(p.sscGroup)}";
+  var sscResultType = "${esc(p.sscResultType)}";
+
+  var hscExam      = "${esc(p.hscExam)}";
   var hscBoard     = "${esc(p.hscBoard)}";
   var hscRoll      = "${esc(p.hscRollNo)}";
   var hscReg       = "${esc(p.hscRegNo)}";
   var hscYear      = "${esc(p.hscYear)}";
   var hscGpa       = "${esc(p.hscGpa)}";
   var hscGroup     = "${esc(p.hscGroup)}";
+  var hscResultType = "${esc(p.hscResultType)}";
+
   var gradDegree   = "${esc(p.graduationDegree)}";
   var gradSubject  = "${esc(p.graduationSubject)}";
   var gradInst     = "${esc(p.graduationInstitution)}";
   var gradYear     = "${esc(p.graduationYear)}";
   var gradResult   = "${esc(p.graduationResult)}";
+  var gradResultType = "${esc(p.graduationResultType)}";
+  var gradDuration = "${esc(p.graduationDuration)}";
 
-  // ── নাম/আইডি-ভিত্তিক rules (যেখানে field-এর নিজের name/id/label-এই যথেষ্ট তথ্য থাকে) ──
+  // ── নাম/আইডি-ভিত্তিক rules ──
   var rules = [
+    // Names — Bengali
     { pat: /applicant.*name.*bn|applicantnameben|namebn|namebengali|আবেদনকারী.*নাম|বাংলা.*নাম/i, val: fullNameBn },
     { pat: /father.*name.*bn|fathernameben|piternamebn|পিতার.*নাম|father.*bangla/i,              val: fatherBn },
     { pat: /mother.*name.*bn|mothernameben|maternamebn|মাতার.*নাম|mother.*bangla/i,              val: motherBn },
     { pat: /spouse.*bn|husband.*bn|wife.*bn|স্বামী|স্ত্রী/i,                                   val: spouseBn },
+    // Names — English
     { pat: /applicant.*name(?!.*bn)|applicantnameen|applicantname$|^name$/i,                     val: fullNameEn },
     { pat: /father.*name(?!.*bn)|fathernameen|father_name$/i,                                    val: fatherEn },
     { pat: /mother.*name(?!.*bn)|mothernameen|mother_name$/i,                                    val: motherEn },
     { pat: /spouse.*en|spouse.*name$|husband.*name$|wife.*name$/i,                               val: spouseEn },
+    // DOB
     { pat: /date.*birth|birth.*date|^dob$|জন্ম.*তারিখ/i,                                        val: dob },
-
-    { pat: /national.*id(?!.*type)|nid(?!.*card)(?!.*type)|জাতীয়.*পরিচয়/i,                     val: nid },
-    { pat: /birth.*reg(?!.*type)|জন্ম.*নিবন্ধন/i,                                                val: birthCertNo },
-    { pat: /passport(?!.*type)/i,                                                                 val: passport },
+    // IDs — number fields (value boxes, not the Yes/No dropdown)
+    { pat: /national.*id.*number|nid.*number|nid.*no\b|জাতীয়.*পরিচয়.*নং/i,                    val: nid },
+    { pat: /birth.*reg.*number|birth.*cert.*number|birth.*reg.*no\b|জন্ম.*নিবন্ধন.*নং/i,       val: birthCertNo },
+    { pat: /passport.*number|passport.*no\b/i,                                                    val: passport },
+    // Contact
+    { pat: /confirm.*mobile|confirm.*phone|mobile.*confirm/i,                                    val: mobile },
     { pat: /mobile|phone|cell|মোবাইল/i,                                                          val: mobile },
     { pat: /email/i,                                                                              val: email },
-    { pat: /religion|ধর্ম/i,                                                                     val: religion },
-    { pat: /gender|sex|লিঙ্গ/i,                                                                  val: gender },
-    { pat: /blood/i,                                                                              val: blood },
-    { pat: /nationality|জাতীয়তা/i,                                                               val: nationality },
-    { pat: /marital|বৈবাহিক/i,                                                                   val: marital },
-    { pat: /quota|কোটা/i,                                                                        val: quota },
+    // Identity dropdowns
+    { pat: /^nationality$|nationality/i,                                                         val: nationality },
+    { pat: /^religion$|religion/i,                                                               val: religion },
+    { pat: /^gender$|gender|sex\b/i,                                                             val: gender },
+    { pat: /^blood/i,                                                                            val: blood },
+    { pat: /^marital|marital.*status/i,                                                         val: marital },
+    { pat: /^quota$|quota/i,                                                                     val: quota },
+    { pat: /dep.*status|departmental.*status|dep_status/i,                                       val: depStatus },
 
-    // District/Upazila/Division/PostCode-এ সাধারণত present/permanent prefix থাকে (যেমন ddl_present_district)
-    { pat: /present.*upazila|p.*upazila/i,                  val: pUpazila },
-    { pat: /present.*district|p.*district|p.*zila/i,        val: pDistrict },
-    { pat: /present.*division|p.*division/i,                val: pDivision },
-    { pat: /present.*post.*code|p.*post.*code|present.*zip/i, val: pPostCode },
-    { pat: /permanent.*upazila|s.*upazila/i,                 val: sUpazila },
-    { pat: /permanent.*district|s.*district|s.*zila/i,       val: sDistrict },
-    { pat: /permanent.*division|s.*division/i,               val: sDivision },
-    { pat: /permanent.*post.*code|s.*post.*code|permanent.*zip/i, val: sPostCode },
+    // District/Upazila — prefixed (website uses present_district / permanent_district as id)
+    { pat: /present.*upazila|present_upazila/i,                       val: pUpazila },
+    { pat: /present.*district|present_district/i,                     val: pDistrict },
+    { pat: /present.*division|p.*division/i,                          val: pDivision },
+    { pat: /present.*post.*code|present.*zip/i,                       val: pPostCode },
+    { pat: /permanent.*upazila|permanent_upazila/i,                   val: sUpazila },
+    { pat: /permanent.*district|permanent_district/i,                 val: sDistrict },
+    { pat: /permanent.*division|s.*division/i,                        val: sDivision },
+    { pat: /permanent.*post.*code|permanent.*zip/i,                   val: sPostCode },
 
-    // SSC/HSC — Board/Roll/Reg/Year/Gpa-তে সাধারণত ssc/hsc prefix থাকে
-    { pat: /ssc.*board|ssc.*bord/i,       val: sscBoard },
-    { pat: /ssc.*roll/i,                  val: sscRoll },
-    { pat: /ssc.*reg/i,                   val: sscReg },
-    { pat: /ssc.*year|ssc.*pass/i,        val: sscYear },
+    // JSC
+    { pat: /jsc.*board|jdc.*board/i,        val: jscBoard },
+    { pat: /jsc.*roll|jdc.*roll/i,          val: jscRoll },
+    { pat: /jsc.*year|jdc.*year/i,          val: jscYear },
+    { pat: /jsc.*gpa|jsc.*result/i,         val: jscGpa },
+
+    // SSC
+    { pat: /ssc.*board/i,                   val: sscBoard },
+    { pat: /ssc.*roll/i,                    val: sscRoll },
+    { pat: /ssc.*reg/i,                     val: sscReg },
+    { pat: /ssc.*year|ssc.*pass/i,          val: sscYear },
     { pat: /ssc.*gpa|ssc.*result|ssc.*grade/i, val: sscGpa },
-    { pat: /hsc.*board/i,                 val: hscBoard },
-    { pat: /hsc.*roll/i,                  val: hscRoll },
-    { pat: /hsc.*reg/i,                   val: hscReg },
-    { pat: /hsc.*year|hsc.*pass/i,        val: hscYear },
-    { pat: /hsc.*gpa|hsc.*result/i,       val: hscGpa },
+
+    // HSC
+    { pat: /hsc.*board/i,                   val: hscBoard },
+    { pat: /hsc.*roll/i,                    val: hscRoll },
+    { pat: /hsc.*reg/i,                     val: hscReg },
+    { pat: /hsc.*year|hsc.*pass/i,          val: hscYear },
+    { pat: /hsc.*gpa|hsc.*result/i,         val: hscGpa },
 
     // Graduation
-    { pat: /degree|graduation.*degree/i,  val: gradDegree },
-    { pat: /grad.*subject|graduation.*subject/i, val: gradSubject },
-    { pat: /university|institution|college/i, val: gradInst },
-    { pat: /grad.*year|graduation.*year|passing.*year/i, val: gradYear },
-    { pat: /cgpa|grad.*result|graduation.*result/i, val: gradResult }
+    { pat: /gra.*year|grad.*year|graduation.*year/i,   val: gradYear },
+    { pat: /cgpa|grad.*result|graduation.*result/i,    val: gradResult },
+    { pat: /gra.*institute|university|institution/i,   val: gradInst },
+    { pat: /gra.*subject|subject.*degree|grad.*subject/i, val: gradSubject },
+    { pat: /gra.*exam|grad.*exam|graduation.*exam/i,   val: gradDegree }
   ];
 
-  // ── Bangla ↔ English synonym groups ────────────────────────────────────────
+  // ── Synonym groups ────────────────────────────────────────────────────────
   var SYN_GROUPS = [
-    ['male', 'm', 'পুরুষ'], ['female', 'f', 'মহিলা', 'নারী'],
-    ['islam', 'muslim', 'ইসলাম'], ['hindu', 'হিন্দু'], ['christian', 'খ্রিস্টান'], ['buddhist', 'বৌদ্ধ'],
-    ['married', 'বিবাহিত'], ['unmarried', 'single', 'অবিবাহিত'],
-    ['bangladeshi', 'বাংলাদেশী', 'bangladesh'], ['none', 'no', 'না', 'নাই', 'n/a']
+    ['male', 'm', 'পুরুষ'],
+    ['female', 'f', 'মহিলা', 'নারী'],
+    ['islam', 'muslim', 'ইসলাম'],
+    ['hindu', 'hinduism', 'হিন্দু'],
+    ['christian', 'christianity', 'খ্রিস্টান'],
+    ['buddhist', 'buddhism', 'বৌদ্ধ'],
+    ['married', 'বিবাহিত'],
+    ['single', 'unmarried', 'অবিবাহিত'],
+    ['bangladeshi', 'বাংলাদেশী', 'bangladesh'],
+    ['not applicable', 'none', 'no', 'না', 'নাই', 'n/a'],
+    ['yes', 'হ্যাঁ', 'আছে'],
+    ['s.s.c', 'ssc', 'secondary'],
+    ['h.s.c', 'hsc', 'higher secondary'],
+    ['honors', 'honour', 'b.a.', 'b.sc.', 'b.com.'],
+    ['gpa(out of 5)', 'gpa (out of 5)', 'gpa out of 5'],
+    ['gpa(out of 4)', 'gpa (out of 4)', 'gpa out of 4'],
+    ['cgpa(out of 4)', 'cgpa (out of 4)', 'cgpa out of 4'],
+    ['1st class', 'first class'],
+    ['2nd class', 'second class']
   ];
   var SHORT_SYN_WORDS = [].concat.apply([], SYN_GROUPS);
 
@@ -134,14 +197,11 @@ object JsFormFiller {
     return false;
   }
 
-  // ── Section-context detection ────────────────────────────────────────────
-  // অনেক field-এর (Examination/Result/Group-Subject, Village/Post Office) নিজের নামে কোনো
-  // পরিচয় থাকে না — কোন কার্ড/সেকশনের ভেতরে আছে (যেমন "SSC/Equivalent Level" বা
-  // "Present Address") সেটা দেখেই বুঝতে হয়। তাই পেইজের সব সেকশন-হেডার আগে থেকে খুঁজে রাখি,
-  // তারপর প্রতিটা field-এর জন্য DOM-order-এ তার ঠিক আগের header-টা context হিসেবে ধরি।
+  // ── Section-context detection ─────────────────────────────────────────────
   var SECTION_PATTERNS = [
     { tag: 'permanent',  re: /permanent[\s\S]{0,20}address|স্থায়ী[\s\S]{0,10}ঠিকানা/i },
     { tag: 'present',    re: /present[\s\S]{0,20}address|বর্তমান[\s\S]{0,10}ঠিকানা/i },
+    { tag: 'jsc',        re: /j\.?\s*s\.?\s*c|jdc|junior|class.*eight/i },
     { tag: 'hsc',        re: /h\.?\s*s\.?\s*c[\s\S]{0,20}(equivalent|level)/i },
     { tag: 'ssc',        re: /s\.?\s*s\.?\s*c[\s\S]{0,20}(equivalent|level)/i },
     { tag: 'graduation', re: /graduation[\s\S]{0,20}(equivalent|level)/i }
@@ -153,7 +213,7 @@ object JsFormFiller {
     var all = document.querySelectorAll('div, h1, h2, h3, h4, h5, legend, span, td, th, p');
     for (var i = 0; i < all.length; i++) {
       var txt = (all[i].innerText || all[i].textContent || '').trim();
-      if (!txt || txt.length > 60) continue; // section header সাধারণত ছোট টেক্সট হয়
+      if (!txt || txt.length > 80) continue;
       for (var j = 0; j < SECTION_PATTERNS.length; j++) {
         if (SECTION_PATTERNS[j].re.test(txt)) { found.push({ el: all[i], tag: SECTION_PATTERNS[j].tag }); break; }
       }
@@ -165,53 +225,71 @@ object JsFormFiller {
     var headers = getSectionHeaders();
     var best = null;
     for (var i = 0; i < headers.length; i++) {
-      // headers[i].el যদি el-এর আগে (DOM order এ) থাকে, candidate — শেষ পর্যন্ত সবচেয়ে কাছের টা থাকবে
       var rel = headers[i].el.compareDocumentPosition(el);
       if (rel & Node.DOCUMENT_POSITION_FOLLOWING) best = headers[i].tag;
     }
     return best;
   }
 
-  // context অনুযায়ী generic keyword (village/post office/care of/examination/result/group-subject)
-  // resolve করার rule গুলো — এগুলোর নিজের নামে present/permanent/ssc/hsc কিছু লাগবে না
+  // Context keyword rules — generic labels that need section context
   var CONTEXT_KEYWORD_RULES = [
-    { pat: /village|road|house|flat|town|গ্রাম|মহল্লা/i, key: 'village' },
-    { pat: /post.*office|পোস্ট.*অফিস/i, key: 'postOffice' },
-    { pat: /care.*of/i, key: 'careOf' },
-    { pat: /examination/i, key: 'examination' },
-    { pat: /^result$|result\s*\/?\s*grade/i, key: 'result' },
-    { pat: /group.*subject|subject.*group|subject.*degree/i, key: 'groupSubject' }
+    { pat: /village|road|house|flat|town|গ্রাম|মহল্লা/i,       key: 'village' },
+    { pat: /post.*office|পোস্ট.*অফিস/i,                          key: 'postOffice' },
+    { pat: /care.*of/i,                                           key: 'careOf' },
+    { pat: /^examination$|^exam$/i,                               key: 'examination' },
+    { pat: /^result$|result\s*\/?(\s*grade|type)?$/i,            key: 'result' },
+    { pat: /group.*subject|subject.*group/i,                     key: 'groupSubject' },
+    { pat: /^board$/i,                                           key: 'board' },
+    { pat: /passing.*year|^year$/i,                              key: 'year' },
+    { pat: /roll.*no|^roll$/i,                                   key: 'roll' },
+    { pat: /course.*duration|duration/i,                         key: 'duration' }
   ];
+
   function contextValue(context, key) {
     if (context === 'present') {
       if (key === 'village') return pVillage;
       if (key === 'postOffice') return pPostOffice;
-      if (key === 'careOf') return careOf;
+      if (key === 'careOf') return pCareOf;
     }
     if (context === 'permanent') {
       if (key === 'village') return sVillage;
       if (key === 'postOffice') return sPostOffice;
-      if (key === 'careOf') return careOf;
+      if (key === 'careOf') return sCareOf;
+    }
+    if (context === 'jsc') {
+      if (key === 'examination') return jscExam;
+      if (key === 'board') return jscBoard;
+      if (key === 'roll') return jscRoll;
+      if (key === 'result') return jscGpa;
+      if (key === 'year') return jscYear;
     }
     if (context === 'ssc') {
-      if (key === 'examination') return 'S.S.C';
+      if (key === 'examination') return sscExam;
+      if (key === 'board') return sscBoard;
+      if (key === 'roll') return sscRoll;
       if (key === 'result') return sscGpa;
       if (key === 'groupSubject') return sscGroup;
+      if (key === 'year') return sscYear;
     }
     if (context === 'hsc') {
-      if (key === 'examination') return 'H.S.C';
+      if (key === 'examination') return hscExam;
+      if (key === 'board') return hscBoard;
+      if (key === 'roll') return hscRoll;
       if (key === 'result') return hscGpa;
       if (key === 'groupSubject') return hscGroup;
+      if (key === 'year') return hscYear;
     }
     if (context === 'graduation') {
       if (key === 'examination') return gradDegree;
       if (key === 'result') return gradResult;
       if (key === 'groupSubject') return gradSubject;
+      if (key === 'year') return gradYear;
+      if (key === 'duration') return gradDuration;
     }
     return null;
   }
 
-  // ── Identifiers collector — নাম/আইডি/placeholder/label + আশেপাশের visible টেক্সট ────
+  // ── Identifiers collector ─────────────────────────────────────────────────
   function getIdentifiers(el) {
     var ids = [
       el.getAttribute('name') || '', el.getAttribute('id') || '',
@@ -223,15 +301,12 @@ object JsFormFiller {
     }
     var parentLabel = el.closest('label');
     if (parentLabel) ids.push(parentLabel.innerText || '');
-
-    // Bootstrap/Card layout-এ label আর input আলাদা div/td হিসেবে থাকে, <label for=""> ছাড়াও —
-    // কয়েক লেভেল উপরে গিয়ে কাছাকাছি টেক্সট খুঁজি (deep nesting handle করার জন্য)
     var node = el;
     for (var depth = 0; depth < 4 && node; depth++) {
       var prevSib = node.previousElementSibling;
       if (prevSib && prevSib.tagName !== 'SELECT' && prevSib.tagName !== 'INPUT' && prevSib.tagName !== 'TEXTAREA') {
         var t = (prevSib.innerText || prevSib.textContent || '').trim();
-        if (t && t.length < 60) ids.push(t);
+        if (t && t.length < 80) ids.push(t);
       }
       node = node.parentElement;
     }
@@ -258,7 +333,7 @@ object JsFormFiller {
     return null;
   }
 
-  // ── তারিখ ফরম্যাট কনভার্ট (DD/MM/YYYY → YYYY-MM-DD, type="date" input-এর জন্য) ─────────
+  // ── Date format convert ───────────────────────────────────────────────────
   function pad2(n) { n = n.toString(); return n.length < 2 ? '0' + n : n; }
   function toIsoDate(ddmmyyyy) {
     var m = ddmmyyyy.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
@@ -266,12 +341,12 @@ object JsFormFiller {
     return m[3] + '-' + pad2(m[1]) + '-' + pad2(m[2]);
   }
 
-  // ── Text input / textarea fill helper ───────────────────────────────────────
+  // ── Text input fill ───────────────────────────────────────────────────────
   function setVal(el, val) {
     if (!val || el.readOnly || el.disabled) return false;
     if (el.tagName === 'INPUT' && el.type === 'date') {
       var iso = toIsoDate(val);
-      if (iso) val = iso; else return false; // ফরম্যাট না মিললে আর কিছু করার নেই
+      if (iso) val = iso; else return false;
     }
     try {
       var desc = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')
@@ -285,22 +360,25 @@ object JsFormFiller {
     } catch (e) { return false; }
   }
 
-  // ── SELECT/dropdown matching — multi-stage ──────────────────────────────────
+  // ── SELECT matching ───────────────────────────────────────────────────────
   function findOptionIndex(selectEl, val) {
     if (!val) return -1;
     var target = val.toString().trim().toLowerCase();
     if (!target) return -1;
     var opts = selectEl.options;
     var i;
+    // Exact match
     for (i = 0; i < opts.length; i++) {
       var t = (opts[i].text || '').trim().toLowerCase();
       var v = (opts[i].value || '').trim().toLowerCase();
       if (t === target || v === target) return i;
     }
+    // Synonym group
     for (i = 0; i < opts.length; i++) {
       var t2 = (opts[i].text || '').trim().toLowerCase();
       if (t2 && inSameSynGroup(target, t2)) return i;
     }
+    // Partial
     for (i = 0; i < opts.length; i++) {
       var t3 = (opts[i].text || '').trim().toLowerCase();
       if (!t3 || t3 === 'select' || t3.indexOf('select') === 0) continue;
@@ -326,37 +404,62 @@ object JsFormFiller {
     } catch (e) { return false; }
   }
 
-  // ── Cascading dropdown (District → Upazila AJAX দিয়ে populate হয়) ──────────
+  // ── Cascading dropdown (District → Upazila AJAX) ──────────────────────────
   function waitAndFillDependentSelect(el, val, triesLeft) {
     if (!el || !val) return;
     function attempt(left) {
       if (el.options.length > 1 && setSelectVal(el, val)) return;
       if (left <= 0) return;
-      setTimeout(function () { attempt(left - 1); }, 250);
+      setTimeout(function () { attempt(left - 1); }, 300);
     }
     attempt(triesLeft);
   }
 
-  // ── ID-type dropdown (National ID / Birth Registration / Passport — Yes/No স্টাইল) ─
+  // ── ID-type Yes/No dropdown ───────────────────────────────────────────────
   function idTypeCandidates(identifiers) {
     var joined = identifiers.join(' ').toLowerCase();
-    if (/national.*id|^nid|জাতীয়/.test(joined)) {
-      return nid ? ['yes', 'national', 'national id', 'হ্যাঁ', 'আছে'] : ['no', 'না', 'নাই'];
+    // These match the website's dropdown IDs: nid, breg, passport
+    if (/\bnid\b|national.*id(?!.*number)/.test(joined)) {
+      return nid ? ['yes', 'হ্যাঁ', 'আছে'] : ['no', 'না', 'নাই'];
     }
-    if (/birth.*reg|জন্ম.*নিবন্ধন/.test(joined)) {
-      return birthCertNo ? ['yes', 'birth', 'birth registration', 'হ্যাঁ', 'আছে'] : ['no', 'না', 'নাই'];
+    if (/\bbreg\b|birth.*reg(?!.*number)/.test(joined)) {
+      return birthCertNo ? ['yes', 'হ্যাঁ', 'আছে'] : ['no', 'না', 'নাই'];
     }
-    if (/passport/.test(joined)) {
-      return passport ? ['yes', 'passport', 'হ্যাঁ', 'আছে'] : ['no', 'না', 'নাই'];
+    if (/\bpassport\b(?!.*number)/.test(joined)) {
+      return passport ? ['yes', 'হ্যাঁ', 'আছে'] : ['no', 'না', 'নাই'];
     }
     return null;
   }
+
   function tryCandidates(el, candidates) {
     for (var i = 0; i < candidates.length; i++) if (setSelectVal(el, candidates[i])) return true;
     return false;
   }
 
-  // ── মূল লুপ: input + textarea + select + date সব একসাথে ─────────────────────
+  // ── Result-type dropdown helper ───────────────────────────────────────────
+  // Website has separate Result-type dropdown (GPA out of 5 / 1st Division etc.)
+  // and then a GPA value input. We try to fill the type dropdown first.
+  function tryResultTypeDropdown(el, context) {
+    var rt = '';
+    if (context === 'jsc') rt = jscResultType;
+    else if (context === 'ssc') rt = sscResultType;
+    else if (context === 'hsc') rt = hscResultType;
+    else if (context === 'graduation') rt = gradResultType;
+    if (rt && setSelectVal(el, rt)) return true;
+    // Fallback: if GPA value exists, select "GPA(out of 5)"
+    var gpaVal = '';
+    if (context === 'ssc') gpaVal = sscGpa;
+    else if (context === 'hsc') gpaVal = hscGpa;
+    else if (context === 'jsc') gpaVal = jscGpa;
+    else if (context === 'graduation') gpaVal = gradResult;
+    if (gpaVal) {
+      return setSelectVal(el, 'GPA(out of 5)') || setSelectVal(el, 'GPA(out of 4)') ||
+             setSelectVal(el, 'CGPA(out of 4)') || setSelectVal(el, 'CGPA(out of 5)');
+    }
+    return false;
+  }
+
+  // ── Main loop ─────────────────────────────────────────────────────────────
   var fields = document.querySelectorAll(
     'input[type="text"], input[type="email"], input[type="tel"], input[type="date"], ' +
     'input[type="number"], input:not([type]), textarea, select'
@@ -368,43 +471,64 @@ object JsFormFiller {
   fields.forEach(function (el) {
     var tag = el.tagName.toLowerCase();
     var ids = getIdentifiers(el);
+    var joinedIds = ids.join(' ').toLowerCase();
 
     if (tag === 'select') {
-      var isUpazila = /upazila|উপজেলা|thana|থানা|p\.?\s*s\.?$/i.test(ids.join(' '));
+      var isUpazila = /upazila|উপজেলা|thana|থানা|p\.?\s*s\.?$/i.test(joinedIds);
+
+      // Named-rule match first
       var val = matchRule(ids);
+      if (val) {
+        if (isUpazila) { deferredUpazila.push({ el: el, val: val }); return; }
+        if (setSelectVal(el, val)) { filled++; return; }
+      }
 
-      if (isUpazila && val) { deferredUpazila.push({ el: el, val: val }); return; }
-      if (val && setSelectVal(el, val)) { filled++; return; }
-
-      // নাম-ভিত্তিক rule কাজ না করলে — context (কোন সেকশনে আছে) দেখে resolve করি
+      // Context-based
       var ctxKey = matchContextKey(ids);
       if (ctxKey) {
         var ctx = getSectionContext(el);
+
+        // Result-type dropdown — special handling
+        if (ctxKey === 'result' && ctx) {
+          if (tryResultTypeDropdown(el, ctx)) { filled++; return; }
+          var ctxVal2 = contextValue(ctx, ctxKey);
+          if (ctxVal2 && setSelectVal(el, ctxVal2)) { filled++; return; }
+          return;
+        }
+
         var ctxVal = ctx ? contextValue(ctx, ctxKey) : null;
-        if (ctxVal && setSelectVal(el, ctxVal)) { filled++; return; }
-        // Result field-এ exact GPA number না মিললে categorical "GPA" option try করি
-        if (ctxKey === 'result' && ctxVal && setSelectVal(el, 'GPA')) { filled++; return; }
+        if (ctxVal) {
+          if (isUpazila) { deferredUpazila.push({ el: el, val: ctxVal }); return; }
+          if (setSelectVal(el, ctxVal)) { filled++; return; }
+        }
       }
 
+      // ID-type Yes/No dropdown
       var idCandidates = idTypeCandidates(ids);
-      if (idCandidates && tryCandidates(el, idCandidates)) filled++;
+      if (idCandidates && tryCandidates(el, idCandidates)) { filled++; return; }
+
+      // Departmental status — try direct
+      if (/dep.*status|departmental/i.test(joinedIds)) {
+        if (setSelectVal(el, depStatus)) { filled++; return; }
+      }
       return;
     }
 
-    // input[text/date-like] / textarea
+    // Text / textarea inputs
     var textVal = matchRule(ids);
-    if (textVal) { if (setVal(el, textVal)) filled++; return; }
+    if (textVal) { if (setVal(el, textVal)) { filled++; return; } }
 
     var ctxKey2 = matchContextKey(ids);
     if (ctxKey2) {
       var ctx2 = getSectionContext(el);
-      var ctxVal2 = ctx2 ? contextValue(ctx2, ctxKey2) : null;
-      if (ctxVal2 && setVal(el, ctxVal2)) filled++;
+      var ctxVal3 = ctx2 ? contextValue(ctx2, ctxKey2) : null;
+      if (ctxVal3 && setVal(el, ctxVal3)) { filled++; return; }
     }
   });
 
+  // Deferred upazila fills (wait for AJAX cascade)
   deferredUpazila.forEach(function (item) {
-    waitAndFillDependentSelect(item.el, item.val, 20);
+    waitAndFillDependentSelect(item.el, item.val, 24);
   });
 
   return "✅ " + filled + " টি field পূরণ হয়েছে! (Upazila ড্রপডাউন কিছুক্ষণ পর auto-আপডেট হবে)";
