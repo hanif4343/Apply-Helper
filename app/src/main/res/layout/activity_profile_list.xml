@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_light">
+
+    <!-- Top Bar -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="56dp"
+        android:background="@color/primary" android:orientation="horizontal"
+        android:gravity="center_vertical" android:paddingStart="8dp" android:paddingEnd="12dp">
+        <Button android:id="@+id/btnBack" android:layout_width="wrap_content" android:layout_height="40dp"
+            android:background="@color/primary" android:text="←" android:textColor="@color/white" android:textSize="18sp"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="প্রোফাইলসমূহ" android:textColor="@color/white"
+            android:textSize="17sp" android:textStyle="bold" android:gravity="center"/>
+        <Button android:id="@+id/btnAddProfile" android:layout_width="wrap_content" android:layout_height="40dp"
+            android:background="#FF2E7D32" android:text="+ নতুন" android:textColor="@color/white" android:textSize="13sp"/>
+    </LinearLayout>
+
+    <!-- Backup / Restore Row -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:padding="10dp">
+        <Button android:id="@+id/btnBackup" android:layout_width="0dp" android:layout_height="44dp"
+            android:layout_weight="1" android:layout_marginEnd="6dp"
+            android:background="#FF00796B" android:text="💾 ব্যাকআপ নিন"
+            android:textColor="@color/white" android:textSize="13sp"/>
+        <Button android:id="@+id/btnRestore" android:layout_width="0dp" android:layout_height="44dp"
+            android:layout_weight="1"
+            android:background="#FFE65100" android:text="📂 ব্যাকআপ থেকে Restore"
+            android:textColor="@color/white" android:textSize="13sp"/>
+    </LinearLayout>
+
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="ব্যাকআপ ফাইলটা ফোনের যেকোনো ফোল্ডারে (যেমন Downloads) সেভ হবে — app uninstall করলেও ওই ফাইল থাকবে, পরে Restore বাটনে চেপে ফিরিয়ে আনতে পারবেন।"
+        android:textColor="@color/text_secondary" android:textSize="11sp"
+        android:paddingStart="16dp" android:paddingEnd="16dp" android:paddingBottom="8dp"/>
+
+    <!-- Empty state -->
+    <TextView android:id="@+id/tvEmpty" android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="কোনো প্রোফাইল নেই। উপরে '+ নতুন' চাপুন।"
+        android:textColor="@color/text_secondary" android:textSize="14sp" android:gravity="center"
+        android:padding="32dp" android:visibility="gone"/>
+
+    <!-- RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"/>
+</LinearLayout>
