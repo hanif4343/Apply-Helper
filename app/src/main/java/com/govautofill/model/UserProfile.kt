@@ -55,6 +55,7 @@ data class UserProfile(
     var sscYear: String = "",
     var sscGpa: String = "",
     var sscGroup: String = "",
+    var careOf: String = "",
 
     // Education - HSC
     var hscBoard: String = "",
