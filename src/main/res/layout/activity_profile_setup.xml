@@ -105,6 +105,10 @@
             <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSpouseNameEn" android:layout_width="match_parent" android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Care Of — খালি রাখলে Father's Name বসবে" android:layout_marginBottom="16dp">
+            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etCareOf" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <!-- Section: Identity -->
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="পরিচয় তথ্য" android:textStyle="bold" android:textSize="15sp"
