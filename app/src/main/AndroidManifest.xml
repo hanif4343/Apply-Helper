@@ -29,6 +29,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity android:name=".ui.ProfileSetupActivity" android:exported="false"
             android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.ProfileListActivity" android:exported="false"/>
         <activity android:name=".ui.MediaVaultActivity" android:exported="false"/>
         <activity android:name=".ui.JobHistoryActivity" android:exported="false"/>
         <activity android:name=".ui.JobDetailActivity" android:exported="false"
