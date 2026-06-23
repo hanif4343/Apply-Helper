@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.govautofill.databinding.ActivityProfileSetupBinding
+import com.govautofill.model.ProfileEntry
 import com.govautofill.model.UserProfile
 import com.govautofill.utils.AdManager
 import com.govautofill.utils.ProfileRepository
@@ -15,11 +16,18 @@ class ProfileSetupActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileSetupBinding
     private lateinit var profileRepo: ProfileRepository
 
+    // null হলে নতুন প্রোফাইল তৈরি হচ্ছে, না হলে এই id-র প্রোফাইলটা edit হচ্ছে
+    private var editingId: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileSetupBinding.inflate(layoutInflater)
         setContentView(binding.root)
         profileRepo = ProfileRepository(this)
+
+        editingId = intent.getStringExtra("profile_id")
+        binding.tvSetupTitle.text = if (editingId != null) "প্রোফাইল এডিট করুন" else "নতুন প্রোফাইল"
+
         loadProfile()
         binding.btnSave.setOnClickListener { saveProfile() }
         binding.btnBack.setOnClickListener { finish() }
@@ -32,7 +40,12 @@ class ProfileSetupActivity : AppCompatActivity() {
     fun onSaveBottomClicked(view: View) { saveProfile() }
 
     private fun loadProfile() {
-        val p = profileRepo.getProfile()
+        // editingId থাকলে সেই নির্দিষ্ট প্রোফাইল লোড করি, না থাকলে ফাঁকা ফর্ম (নতুন প্রোফাইল)
+        val entry = editingId?.let { profileRepo.getById(it) }
+        val p = entry?.profile ?: UserProfile()
+
+        binding.etProfileLabel.setText(entry?.label ?: "")
+
         with(binding) {
             etFullNameBn.setText(p.fullNameBn); etFullNameEn.setText(p.fullNameEn)
             etFatherNameBn.setText(p.fatherNameBn); etFatherNameEn.setText(p.fatherNameEn)
@@ -87,7 +100,17 @@ class ProfileSetupActivity : AppCompatActivity() {
                 graduationResult = etGradResult.text.toString().trim()
             }
         }
-        profileRepo.saveProfile(p)
+
+        var label = binding.etProfileLabel.text.toString().trim()
+        if (label.isEmpty()) label = p.fullNameEn.ifEmpty { p.fullNameBn.ifEmpty { "নামহীন প্রোফাইল" } }
+
+        val entry = if (editingId != null) {
+            ProfileEntry(id = editingId!!, label = label, profile = p)
+        } else {
+            ProfileEntry(label = label, profile = p)
+        }
+        profileRepo.save(entry)
+
         Toast.makeText(this, "প্রোফাইল সেভ হয়েছে!", Toast.LENGTH_SHORT).show()
         finish()
     }
