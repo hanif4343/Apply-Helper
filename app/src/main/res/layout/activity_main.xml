@@ -37,7 +37,7 @@
                         android:textColor="@color/text_secondary" android:textSize="13sp" android:visibility="gone"/>
                     <Button android:id="@+id/btnEditProfile" android:layout_width="match_parent"
                         android:layout_height="46dp" android:layout_marginTop="10dp"
-                        android:background="@color/primary" android:text="Profile Edit করুন"
+                        android:background="@color/primary" android:text="প্রোফাইল ম্যানেজ করুন"
                         android:textColor="@color/white"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
