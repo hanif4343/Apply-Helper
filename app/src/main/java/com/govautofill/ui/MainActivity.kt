@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) { /* Ad init failure should not crash app */ }
 
         binding.btnEditProfile.setOnClickListener {
-            startActivity(Intent(this, ProfileSetupActivity::class.java))
+            startActivity(Intent(this, ProfileListActivity::class.java))
         }
         binding.btnOpenBrowser.setOnClickListener {
             if (!profileRepo.hasProfile()) {
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.menuHistory -> { startActivity(Intent(this, JobHistoryActivity::class.java)); true }
             R.id.menuBrowser -> { startActivity(Intent(this, BrowserActivity::class.java)); true }
-            R.id.menuProfile -> { startActivity(Intent(this, ProfileSetupActivity::class.java)); true }
+            R.id.menuProfile -> { startActivity(Intent(this, ProfileListActivity::class.java)); true }
             R.id.menuMedia   -> { startActivity(Intent(this, MediaVaultActivity::class.java)); true }
             R.id.menuPrivacy -> { startActivity(Intent(this, PolicyActivity::class.java).putExtra("type", "privacy")); true }
             R.id.menuTerms   -> { startActivity(Intent(this, PolicyActivity::class.java).putExtra("type", "terms")); true }
@@ -85,10 +85,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val profile = profileRepo.getProfile()
+        val profile = profileRepo.getActiveProfile()
         val hasProfile = profileRepo.hasProfile()
+        val totalProfiles = profileRepo.getAll().size
         if (hasProfile) {
-            binding.tvProfileStatus.text = "প্রোফাইল সেট করা আছে"
+            binding.tvProfileStatus.text = if (totalProfiles > 1)
+                "প্রোফাইল সেট করা আছে ($totalProfiles টি প্রোফাইল)"
+            else
+                "প্রোফাইল সেট করা আছে"
             binding.tvProfileStatus.setTextColor(getColor(R.color.green))
             binding.tvProfileName.text = profile.fullNameEn.ifEmpty { profile.fullNameBn }
             binding.tvProfileName.visibility = View.VISIBLE
