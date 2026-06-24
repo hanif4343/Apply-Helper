@@ -2,425 +2,590 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_light">
+    android:background="#EEEEEE">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <!-- Top Bar -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="16dp">
-
-            <Button
-                android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:background="@color/primary"
-                android:text="ফিরে যান"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tvSetupTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="প্রোফাইল সেটআপ"
-                android:textColor="@color/primary"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:gravity="center" />
-
-            <Button
-                android:id="@+id/btnSave"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:background="@color/green"
-                android:text="সেভ করুন"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
+        <!-- ══ TOP BAR ══ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="56dp"
+            android:orientation="horizontal" android:gravity="center_vertical"
+            android:background="#1565C0" android:paddingLeft="6dp" android:paddingRight="6dp">
+            <Button android:id="@+id/btnBack" android:layout_width="wrap_content" android:layout_height="40dp"
+                android:background="#0D47A1" android:text="← ফিরে" android:textColor="#FFFFFF"
+                android:textSize="12sp" android:textAllCaps="false" android:paddingLeft="10dp" android:paddingRight="10dp"/>
+            <TextView android:id="@+id/tvSetupTitle" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="প্রোফাইল সেটআপ" android:textColor="#FFFFFF"
+                android:textSize="16sp" android:textStyle="bold" android:gravity="center"/>
+            <Button android:id="@+id/btnSave" android:layout_width="wrap_content" android:layout_height="40dp"
+                android:background="#2E7D32" android:text="সেভ করুন" android:textColor="#FFFFFF"
+                android:textSize="12sp" android:textAllCaps="false" android:paddingLeft="10dp" android:paddingRight="10dp"/>
         </LinearLayout>
 
-        <!-- Media Vault Button -->
-        <Button
-            android:id="@+id/btnOpenMediaVault"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:background="@color/primary"
-            android:text="📁 মিডিয়া ভল্ট ওপেন করুন"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <!-- Profile Label -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="এই প্রোফাইলের নাম (যেমন: নিজের প্রোফাইল, ভাইয়ের প্রোফাইল)"
-            android:layout_marginBottom="16dp">
-            <com.google.android.material.textfield.TextInputEditText
-                android:textColor="@color/text_primary"
-                android:id="@+id/etProfileLabel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- ══════════════════════════════════════════
-             SECTION: Basic Information (ব্যক্তিগত তথ্য)
-             ══════════════════════════════════════════ -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="ব্যক্তিগত তথ্য" android:textStyle="bold" android:textSize="15sp"
-            android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Applicant's Name (English)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etFullNameEn" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textPersonName" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="আবেদনকারীর নাম (বাংলায়)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etFullNameBn" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textPersonName" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Father's Name (English)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etFatherNameEn" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="পিতার নাম (বাংলায়)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etFatherNameBn" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Mother's Name (English)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etMotherNameEn" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="মাতার নাম (বাংলায়)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etMotherNameBn" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Date of Birth (DD/MM/YYYY)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etDob" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="date" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Nationality — website-এ dropdown: Bangladeshi -->
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Nationality (যেমন: Bangladeshi)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etNationality" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Religion — dropdown: Islam | Hinduism | Buddhism | Christianity | Other -->
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Religion (Islam / Hinduism / Buddhism / Christianity / Other)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etReligion" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Gender — dropdown: Male | Female | Third Gender -->
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Gender (Male / Female / Third Gender)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGender" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- National ID — dropdown: Yes/No + number field -->
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="National ID আছে? (Yes / No)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etNidStatus" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="National ID Number" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etNid" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Birth Registration — dropdown: Yes/No + number -->
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Birth Registration আছে? (Yes / No)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etBirthRegStatus" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Birth Registration Number" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etBirthRegNo" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Passport — dropdown: Yes/No + number -->
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Passport আছে? (Yes / No)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPassportStatus" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Passport Number (প্রযোজ্য হলে)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPassport" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Marital Status — dropdown: Single | Married | Other + Spouse Name -->
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Marital Status (Single / Married / Other)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etMarital" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Spouse Name (English) — বিবাহিত হলে" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSpouseNameEn" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="স্বামী/স্ত্রীর নাম (বাংলায়) — বিবাহিত হলে" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSpouseNameBn" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Mobile Number" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etMobile" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="phone" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Confirm Mobile Number" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etConfirmMobile" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="phone" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Email" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etEmail" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Quota -->
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Quota (Not Applicable / Freedom Fighter / Ethnic Minority...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etQuota" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Departmental Status -->
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Departmental Status (Not Applicable / Govt. Employee...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etDepartmentalStatus" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="রক্তের গ্রুপ (যেমন: B+)" android:layout_marginBottom="16dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etBloodGroup" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- ══════════════════════════════════════════
-             SECTION: Present Address (বর্তমান ঠিকানা)
-             ══════════════════════════════════════════ -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="বর্তমান ঠিকানা (Present Address)" android:textStyle="bold" android:textSize="15sp"
-            android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Care Of" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etCareOf" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Village / Road / House / Flat" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPresentVillage" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Post Office" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPresentPostOffice" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="District (জেলা)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPresentDistrict" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Upazila / P.S. (উপজেলা)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPresentUpazila" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="বিভাগ (Division)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPresentDivision" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Post Code" android:layout_marginBottom="16dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPresentPostCode" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- ══════════════════════════════════════════
-             SECTION: Permanent Address (স্থায়ী ঠিকানা)
-             ══════════════════════════════════════════ -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="স্থায়ী ঠিকানা (Permanent Address)" android:textStyle="bold" android:textSize="15sp"
-            android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Care Of" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentCareOf" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Village / Road / House / Flat" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentVillage" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Post Office" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentPostOffice" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="District (জেলা)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentDistrict" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Upazila / P.S. (উপজেলা)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentUpazila" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="বিভাগ (Division)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentDivision" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Post Code" android:layout_marginBottom="16dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etPermanentPostCode" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- ══════════════════════════════════════════
-             SECTION: JSC / সমমান
-             ══════════════════════════════════════════ -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="JSC / সমমান (যদি প্রযোজ্য হয়)" android:textStyle="bold" android:textSize="15sp"
-            android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Examination (JSC / JDC / Class Eight / Junior Scholarship...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etJscExam" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Board (Dhaka / Rajshahi / Barishal...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etJscBoard" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Roll No" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etJscRoll" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Result Type (GPA out of 5 / GPA out of 4 / Passed)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etJscResultType" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="GPA / Result" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etJscGpa" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Passing Year" android:layout_marginBottom="16dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etJscYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- ══════════════════════════════════════════
-             SECTION: SSC / সমমান
-             ══════════════════════════════════════════ -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="SSC / সমমান" android:textStyle="bold" android:textSize="15sp"
-            android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Examination (S.S.C / Dakhil / O Level / SSC Vocational...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscExam" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Group / Subject (Science / Humanities / Business...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscGroup" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Board (Dhaka / Rajshahi / Barishal / Chattogram...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscBoard" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Roll No" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscRoll" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Registration No" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscReg" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Result Type (GPA out of 5 / 1st Division / 2nd Division...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscResultType" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="GPA / Result" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscGpa" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Passing Year" android:layout_marginBottom="16dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etSscYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- ══════════════════════════════════════════
-             SECTION: HSC / সমমান
-             ══════════════════════════════════════════ -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="HSC / সমমান" android:textStyle="bold" android:textSize="15sp"
-            android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Examination (H.S.C / Alim / Diploma / A Level...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscExam" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Group / Subject (Science / Humanities / Business...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscGroup" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Board (Dhaka / Rajshahi / Barishal / Chattogram...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscBoard" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Roll No" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscRoll" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Registration No" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscReg" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Result Type (GPA out of 5 / 1st Division / Passed...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscResultType" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="GPA / Result" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscGpa" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Passing Year" android:layout_marginBottom="16dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etHscYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- ══════════════════════════════════════════
-             SECTION: Graduation / সমমান
-             ══════════════════════════════════════════ -->
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="স্নাতক / সমমান (Graduation)" android:textStyle="bold" android:textSize="15sp"
-            android:textColor="@color/primary" android:layout_marginBottom="8dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Examination (Honors / Pass / BBA / BSc Engineering...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradDegree" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Subject / Degree" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradSubject" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="University / Institution" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradInstitution" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Passing Year" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Result Type (CGPA out of 4 / 1st Class / 2nd Class / Passed...)" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradResultType" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="CGPA / Result" android:layout_marginBottom="8dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradResult" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:hint="Course Duration (03 Years / 04 Years / 05 Years)" android:layout_marginBottom="24dp">
-            <com.google.android.material.textfield.TextInputEditText android:textColor="@color/text_primary" android:id="@+id/etGradDuration" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Save Button Bottom -->
-        <Button
-            android:id="@+id/btnSaveBottom"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@color/green"
-            android:text="প্রোফাইল সেভ করুন"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"
-            android:onClick="onSaveBottomClicked" />
-
-        <FrameLayout
-            android:id="@+id/adContainerProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp" />
+        <!-- Media Vault -->
+        <Button android:id="@+id/btnOpenMediaVault" android:layout_width="match_parent" android:layout_height="44dp"
+            android:background="#00796B" android:text="📁 মিডিয়া ভল্ট — ছবি ও সিগনেচার"
+            android:textColor="#FFFFFF" android:textSize="13sp" android:textStyle="bold" android:textAllCaps="false"/>
+
+        <!-- Profile Label row -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:gravity="center_vertical" android:background="#FFFFFF"
+            android:paddingLeft="10dp" android:paddingRight="10dp" android:paddingTop="8dp"
+            android:paddingBottom="8dp" android:layout_marginTop="6dp">
+            <TextView style="@style/FormLabel" android:text="প্রোফাইলের নাম"/>
+            <EditText android:id="@+id/etProfileLabel" style="@style/FormInput"
+                android:hint="যেমন: নিজের প্রোফাইল"/>
+        </LinearLayout>
+
+        <!-- ════════ SECTION: Basic Information ════════ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="36dp"
+            android:background="#4CAF50" android:gravity="center_vertical"
+            android:paddingLeft="10dp" android:layout_marginTop="6dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Basic Information" android:textColor="#FFFFFF"
+                android:textSize="13sp" android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#FFFFFF">
+
+            <!-- Applicant Name EN — text -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Applicant\'s Name"/>
+                <EditText android:id="@+id/etFullNameEn" style="@style/FormInput"
+                    android:hint="English" android:inputType="textPersonName"/>
+            </LinearLayout>
+
+            <!-- Applicant Name BN — text -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="আবেদনকারীর নাম (বাংলায়)"/>
+                <EditText android:id="@+id/etFullNameBn" style="@style/FormInput" android:hint="বাংলায়"/>
+            </LinearLayout>
+
+            <!-- Father EN -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Father\'s Name"/>
+                <EditText android:id="@+id/etFatherNameEn" style="@style/FormInput" android:hint="English"/>
+            </LinearLayout>
+
+            <!-- Father BN -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="পিতার নাম (বাংলায়)"/>
+                <EditText android:id="@+id/etFatherNameBn" style="@style/FormInput" android:hint="বাংলায়"/>
+            </LinearLayout>
+
+            <!-- Mother EN -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Mother\'s Name"/>
+                <EditText android:id="@+id/etMotherNameEn" style="@style/FormInput" android:hint="English"/>
+            </LinearLayout>
+
+            <!-- Mother BN -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="মাতার নাম (বাংলায়)"/>
+                <EditText android:id="@+id/etMotherNameBn" style="@style/FormInput" android:hint="বাংলায়"/>
+            </LinearLayout>
+
+            <!-- DOB — text -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Date of Birth"/>
+                <EditText android:id="@+id/etDob" style="@style/FormInput"
+                    android:hint="DD/MM/YYYY" android:inputType="date"/>
+            </LinearLayout>
+
+            <!-- Nationality — SPINNER -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Nationality"/>
+                <Spinner android:id="@+id/spinnerNationality" style="@style/FormSpinner"
+                    android:entries="@array/nationality_options"/>
+            </LinearLayout>
+
+            <!-- Religion — SPINNER -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Religion"/>
+                <Spinner android:id="@+id/spinnerReligion" style="@style/FormSpinner"
+                    android:entries="@array/religion_options"/>
+            </LinearLayout>
+
+            <!-- Gender — SPINNER -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Gender"/>
+                <Spinner android:id="@+id/spinnerGender" style="@style/FormSpinner"
+                    android:entries="@array/gender_options"/>
+            </LinearLayout>
+
+            <!-- National ID — SPINNER (Yes/No) + text number -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="National ID"/>
+                <Spinner android:id="@+id/spinnerNid" style="@style/FormSpinnerHalf"
+                    android:entries="@array/yes_no_options"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  [NID No]" android:textColor="#666" android:textSize="11sp"
+                    android:gravity="center_vertical"/>
+                <EditText android:id="@+id/etNid" style="@style/FormInputHalf"
+                    android:hint="NID Number" android:inputType="number" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <!-- Birth Registration — SPINNER + text -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Birth Registration"/>
+                <Spinner android:id="@+id/spinnerBreg" style="@style/FormSpinnerHalf"
+                    android:entries="@array/yes_no_options"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  [Reg No]" android:textColor="#666" android:textSize="11sp"
+                    android:gravity="center_vertical"/>
+                <EditText android:id="@+id/etBirthRegNo" style="@style/FormInputHalf"
+                    android:hint="Reg. Number" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <!-- Passport — SPINNER + text -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Passport ID"/>
+                <Spinner android:id="@+id/spinnerPassport" style="@style/FormSpinnerHalf"
+                    android:entries="@array/yes_no_options"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  [Pass No]" android:textColor="#666" android:textSize="11sp"
+                    android:gravity="center_vertical"/>
+                <EditText android:id="@+id/etPassport" style="@style/FormInputHalf"
+                    android:hint="Passport No." android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <!-- Marital Status — SPINNER + Spouse Name text -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Marital Status"/>
+                <Spinner android:id="@+id/spinnerMarital" style="@style/FormSpinnerHalf"
+                    android:entries="@array/marital_options"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  [Spouse Name]" android:textColor="#666" android:textSize="11sp"
+                    android:gravity="center_vertical"/>
+                <EditText android:id="@+id/etSpouseNameEn" style="@style/FormInputHalf"
+                    android:hint="Spouse Name" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <!-- Spouse BN -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="স্বামী/স্ত্রীর নাম"/>
+                <EditText android:id="@+id/etSpouseNameBn" style="@style/FormInput"
+                    android:hint="বাংলায় (প্রযোজ্য হলে)"/>
+            </LinearLayout>
+
+            <!-- Mobile -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Mobile Number"/>
+                <EditText android:id="@+id/etMobile" style="@style/FormInput"
+                    android:hint="01XXXXXXXXX" android:inputType="phone"/>
+            </LinearLayout>
+
+            <!-- Confirm Mobile -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Confirm Mobile Number"/>
+                <EditText android:id="@+id/etConfirmMobile" style="@style/FormInput"
+                    android:hint="01XXXXXXXXX" android:inputType="phone"/>
+            </LinearLayout>
+
+            <!-- Email -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Email"/>
+                <EditText android:id="@+id/etEmail" style="@style/FormInput"
+                    android:hint="email@example.com" android:inputType="textEmailAddress"/>
+            </LinearLayout>
+
+            <!-- Quota — SPINNER -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Quota"/>
+                <Spinner android:id="@+id/spinnerQuota" style="@style/FormSpinner"
+                    android:entries="@array/quota_options"/>
+            </LinearLayout>
+
+            <!-- Departmental Status — SPINNER -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Departmental Status"/>
+                <Spinner android:id="@+id/spinnerDepStatus" style="@style/FormSpinner"
+                    android:entries="@array/dep_status_options"/>
+            </LinearLayout>
+
+            <!-- Blood Group — SPINNER -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Blood Group"/>
+                <Spinner android:id="@+id/spinnerBlood" style="@style/FormSpinner"
+                    android:entries="@array/blood_group_options"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ════════ SECTION: Present Address ════════ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="36dp"
+            android:background="#4CAF50" android:gravity="center_vertical"
+            android:paddingLeft="10dp" android:layout_marginTop="6dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="বর্তমান ঠিকানা (Present Address)"
+                android:textColor="#FFFFFF" android:textSize="13sp" android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#FFFFFF">
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Care Of"/>
+                <EditText android:id="@+id/etCareOf" style="@style/FormInput" android:hint="পিতা/স্বামীর নাম"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Village/Road/House/Flat"/>
+                <EditText android:id="@+id/etPresentVillage" style="@style/FormInput" android:hint="গ্রাম / রোড / বাসা"/>
+            </LinearLayout>
+
+            <!-- District — SPINNER -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="District"/>
+                <Spinner android:id="@+id/spinnerPresentDistrict" style="@style/FormSpinner"
+                    android:entries="@array/district_options"/>
+            </LinearLayout>
+
+            <!-- Upazila — text (dynamic, depends on district) -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Upazila/P.S."/>
+                <EditText android:id="@+id/etPresentUpazila" style="@style/FormInput" android:hint="উপজেলা / থানা"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Post Office"/>
+                <EditText android:id="@+id/etPresentPostOffice" style="@style/FormInput" android:hint="পোস্ট অফিস"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Post Code"/>
+                <EditText android:id="@+id/etPresentPostCode" style="@style/FormInput"
+                    android:hint="পোস্ট কোড" android:inputType="number"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Division"/>
+                <EditText android:id="@+id/etPresentDivision" style="@style/FormInput" android:hint="বিভাগ"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ════════ SECTION: Permanent Address ════════ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="36dp"
+            android:background="#4CAF50" android:gravity="center_vertical"
+            android:paddingLeft="10dp" android:layout_marginTop="6dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="স্থায়ী ঠিকানা (Permanent Address)"
+                android:textColor="#FFFFFF" android:textSize="13sp" android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#FFFFFF">
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Care Of"/>
+                <EditText android:id="@+id/etPermanentCareOf" style="@style/FormInput" android:hint="পিতা/স্বামীর নাম"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Village/Road/House/Flat"/>
+                <EditText android:id="@+id/etPermanentVillage" style="@style/FormInput" android:hint="গ্রাম / রোড / বাসা"/>
+            </LinearLayout>
+
+            <!-- District — SPINNER -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="District"/>
+                <Spinner android:id="@+id/spinnerPermanentDistrict" style="@style/FormSpinner"
+                    android:entries="@array/district_options"/>
+            </LinearLayout>
+
+            <!-- Upazila — text -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Upazila/P.S."/>
+                <EditText android:id="@+id/etPermanentUpazila" style="@style/FormInput" android:hint="উপজেলা / থানা"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Post Office"/>
+                <EditText android:id="@+id/etPermanentPostOffice" style="@style/FormInput" android:hint="পোস্ট অফিস"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Post Code"/>
+                <EditText android:id="@+id/etPermanentPostCode" style="@style/FormInput"
+                    android:hint="পোস্ট কোড" android:inputType="number"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Division"/>
+                <EditText android:id="@+id/etPermanentDivision" style="@style/FormInput" android:hint="বিভাগ"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ════════ SECTION: JSC/Equivalent Level ════════ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="36dp"
+            android:background="#4CAF50" android:gravity="center_vertical"
+            android:paddingLeft="10dp" android:layout_marginTop="6dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="JSC/Equivalent Level"
+                android:textColor="#FFFFFF" android:textSize="13sp" android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#FFFFFF">
+
+            <!-- Examination SPINNER + Board SPINNER -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Examination"/>
+                <Spinner android:id="@+id/spinnerJscExam" style="@style/FormSpinnerHalf"
+                    android:entries="@array/jsc_exam_options"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  Board" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <Spinner android:id="@+id/spinnerJscBoard" style="@style/FormSpinnerHalf"
+                    android:entries="@array/board_options" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <!-- Roll + Result SPINNER -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Roll No"/>
+                <EditText android:id="@+id/etJscRoll" style="@style/FormInputHalf"
+                    android:hint="Roll No" android:inputType="number"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  Result" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <Spinner android:id="@+id/spinnerJscResult" style="@style/FormSpinnerHalf"
+                    android:entries="@array/jsc_result_options" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <!-- GPA text + Year SPINNER -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="GPA"/>
+                <EditText android:id="@+id/etJscGpa" style="@style/FormInputHalf"
+                    android:hint="GPA" android:inputType="numberDecimal"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  Passing Year" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <Spinner android:id="@+id/spinnerJscYear" style="@style/FormSpinnerHalf"
+                    android:entries="@array/year_options" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ════════ SECTION: SSC/Equivalent Level ════════ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="36dp"
+            android:background="#4CAF50" android:gravity="center_vertical"
+            android:paddingLeft="10dp" android:layout_marginTop="6dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="SSC/Equivalent Level"
+                android:textColor="#FFFFFF" android:textSize="13sp" android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#FFFFFF">
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Examination"/>
+                <Spinner android:id="@+id/spinnerSscExam" style="@style/FormSpinnerHalf"
+                    android:entries="@array/ssc_exam_options"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  Board" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <Spinner android:id="@+id/spinnerSscBoard" style="@style/FormSpinnerHalf"
+                    android:entries="@array/board_options" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Roll No"/>
+                <EditText android:id="@+id/etSscRoll" style="@style/FormInputHalf"
+                    android:hint="Roll No" android:inputType="number"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  Result" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <Spinner android:id="@+id/spinnerSscResult" style="@style/FormSpinnerHalf"
+                    android:entries="@array/ssc_result_options" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <!-- Group text + Year SPINNER -->
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Group/Subject"/>
+                <EditText android:id="@+id/etSscGroup" style="@style/FormInputHalf"
+                    android:hint="Science / Humanities..."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  Passing Year" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <Spinner android:id="@+id/spinnerSscYear" style="@style/FormSpinnerHalf"
+                    android:entries="@array/year_options" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Registration No"/>
+                <EditText android:id="@+id/etSscReg" style="@style/FormInputHalf" android:hint="Reg. No"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  GPA" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <EditText android:id="@+id/etSscGpa" style="@style/FormInputHalf"
+                    android:hint="GPA" android:inputType="numberDecimal" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ════════ SECTION: HSC/Equivalent Level ════════ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="36dp"
+            android:background="#4CAF50" android:gravity="center_vertical"
+            android:paddingLeft="10dp" android:layout_marginTop="6dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="HSC/Equivalent Level"
+                android:textColor="#FFFFFF" android:textSize="13sp" android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#FFFFFF">
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Examination"/>
+                <Spinner android:id="@+id/spinnerHscExam" style="@style/FormSpinnerHalf"
+                    android:entries="@array/hsc_exam_options"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  Board" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <Spinner android:id="@+id/spinnerHscBoard" style="@style/FormSpinnerHalf"
+                    android:entries="@array/hsc_board_options" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Roll No"/>
+                <EditText android:id="@+id/etHscRoll" style="@style/FormInputHalf"
+                    android:hint="Roll No" android:inputType="number"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  Result" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <Spinner android:id="@+id/spinnerHscResult" style="@style/FormSpinnerHalf"
+                    android:entries="@array/hsc_result_options" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Group/Subject"/>
+                <EditText android:id="@+id/etHscGroup" style="@style/FormInputHalf"
+                    android:hint="Science / Humanities..."/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  Passing Year" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <Spinner android:id="@+id/spinnerHscYear" style="@style/FormSpinnerHalf"
+                    android:entries="@array/year_options" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Registration No"/>
+                <EditText android:id="@+id/etHscReg" style="@style/FormInputHalf" android:hint="Reg. No"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  GPA" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <EditText android:id="@+id/etHscGpa" style="@style/FormInputHalf"
+                    android:hint="GPA" android:inputType="numberDecimal" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ════════ SECTION: Graduation/Equivalent Level ════════ -->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="36dp"
+            android:background="#4CAF50" android:gravity="center_vertical"
+            android:paddingLeft="10dp" android:layout_marginTop="6dp">
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:text="Graduation/Equivalent Level"
+                android:textColor="#FFFFFF" android:textSize="13sp" android:textStyle="bold"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:background="#FFFFFF">
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Examination"/>
+                <Spinner android:id="@+id/spinnerGradExam" style="@style/FormSpinnerHalf"
+                    android:entries="@array/grad_exam_options"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  Subject/Degree" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <EditText android:id="@+id/etGradSubject" style="@style/FormInputHalf"
+                    android:hint="Subject" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="University/Inst."/>
+                <EditText android:id="@+id/etGradInstitution" style="@style/FormInput"
+                    android:hint="University / Institution"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="Passing Year"/>
+                <Spinner android:id="@+id/spinnerGradYear" style="@style/FormSpinnerHalf"
+                    android:entries="@array/year_options"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  Result" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <Spinner android:id="@+id/spinnerGradResult" style="@style/FormSpinnerHalf"
+                    android:entries="@array/grad_result_options" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
+            <LinearLayout style="@style/FormRow">
+                <TextView style="@style/FormLabel" android:text="CGPA / Result"/>
+                <EditText android:id="@+id/etGradResult" style="@style/FormInputHalf"
+                    android:hint="CGPA" android:inputType="numberDecimal"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="  Course Duration" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
+                <Spinner android:id="@+id/spinnerGradDuration" style="@style/FormSpinnerHalf"
+                    android:entries="@array/grad_duration_options" android:layout_marginLeft="4dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ══ SAVE BOTTOM ══ -->
+        <Button android:id="@+id/btnSaveBottom" android:layout_width="match_parent"
+            android:layout_height="52dp" android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp" android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp" android:background="#2E7D32"
+            android:text="প্রোফাইল সেভ করুন" android:textColor="#FFFFFF"
+            android:textSize="15sp" android:textStyle="bold" android:textAllCaps="false"
+            android:onClick="onSaveBottomClicked"/>
+
+        <FrameLayout android:id="@+id/adContainerProfile" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="24dp"/>
 
     </LinearLayout>
 </ScrollView>
