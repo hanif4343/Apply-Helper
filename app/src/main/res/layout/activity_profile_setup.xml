@@ -444,8 +444,8 @@
             <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
             <LinearLayout style="@style/FormRow">
                 <TextView style="@style/FormLabel" android:text="Group/Subject"/>
-                <EditText android:id="@+id/etSscGroup" style="@style/FormInputHalf"
-                    android:hint="Science / Humanities..."/>
+                <Spinner android:id="@+id/spinnerSscGroup" style="@style/FormSpinnerHalf"
+                    android:entries="@array/ssc_group_options"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:text="  Passing Year" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
                 <Spinner android:id="@+id/spinnerSscYear" style="@style/FormSpinnerHalf"
@@ -501,8 +501,8 @@
             <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
             <LinearLayout style="@style/FormRow">
                 <TextView style="@style/FormLabel" android:text="Group/Subject"/>
-                <EditText android:id="@+id/etHscGroup" style="@style/FormInputHalf"
-                    android:hint="Science / Humanities..."/>
+                <Spinner android:id="@+id/spinnerHscGroup" style="@style/FormSpinnerHalf"
+                    android:entries="@array/hsc_group_options"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:text="  Passing Year" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
                 <Spinner android:id="@+id/spinnerHscYear" style="@style/FormSpinnerHalf"
@@ -540,8 +540,8 @@
                     android:entries="@array/grad_exam_options"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                     android:text="  Subject/Degree" android:textColor="#555" android:textSize="11sp" android:gravity="center_vertical"/>
-                <EditText android:id="@+id/etGradSubject" style="@style/FormInputHalf"
-                    android:hint="Subject" android:layout_marginLeft="4dp"/>
+                <Spinner android:id="@+id/spinnerGradSubject" style="@style/FormSpinnerHalf"
+                    android:entries="@array/grad_subject_options" android:layout_marginLeft="4dp"/>
             </LinearLayout>
 
             <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#E0E0E0"/>
