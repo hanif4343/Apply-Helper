@@ -337,46 +337,13 @@
     <!-- Graduation Subject/Degree -->
     <string-array name="grad_subject_options">
         <item>Select</item>
-        <item>Bangla</item>
-        <item>English</item>
-        <item>Mathematics</item>
-        <item>Physics</item>
-        <item>Chemistry</item>
-        <item>Biology</item>
-        <item>Botany</item>
-        <item>Zoology</item>
-        <item>Statistics</item>
-        <item>Computer Science</item>
-        <item>Information Technology</item>
-        <item>Economics</item>
-        <item>Accounting</item>
-        <item>Finance</item>
-        <item>Management</item>
-        <item>Marketing</item>
-        <item>History</item>
-        <item>Islamic Studies</item>
-        <item>Islamic History</item>
-        <item>Political Science</item>
-        <item>Sociology</item>
-        <item>Social Work</item>
-        <item>Geography</item>
-        <item>Psychology</item>
-        <item>Philosophy</item>
-        <item>Law</item>
-        <item>Agriculture</item>
-        <item>Civil Engineering</item>
-        <item>Electrical Engineering</item>
-        <item>Mechanical Engineering</item>
-        <item>Computer Engineering</item>
-        <item>Architecture</item>
-        <item>Medicine (MBBS)</item>
-        <item>Dentistry (BDS)</item>
-        <item>Pharmacy</item>
-        <item>Nursing</item>
-        <item>Public Administration</item>
-        <item>Library Science</item>
-        <item>Fine Arts</item>
-        <item>Music</item>
+        <item>B.A</item>
+        <item>B.B.A</item>
+        <item>B.B.S</item>
+        <item>B.com</item>
+        <item>B.S.S</item>
+        <item>B.Sc</item>
+        <item>L.L.B</item>
         <item>Other</item>
     </string-array>
 
