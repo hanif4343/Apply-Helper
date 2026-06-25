@@ -14,7 +14,6 @@ object JsFormFiller {
         return """
 (function() {
 
-  // ── Profile values ────────────────────────────────────────────────────────
   var fullNameEn    = "${esc(p.fullNameEn)}";
   var fullNameBn    = "${esc(p.fullNameBn)}";
   var fatherEn      = "${esc(p.fatherNameEn)}";
@@ -84,14 +83,13 @@ object JsFormFiller {
   var gradResultType= "${esc(p.graduationResultType)}";
   var gradDuration  = "${esc(p.graduationDuration)}";
 
-  // ── Synonym groups ────────────────────────────────────────────────────────
-  var SYN = [
+  // ── Synonym matching ──────────────────────────────────────────────────────
+  var SYN=[
     ['male','পুরুষ'],['female','মহিলা','নারী'],
     ['islam','muslim','ইসলাম'],['hindu','hinduism','হিন্দু'],
     ['christian','christianity','খ্রিস্টান'],['buddhist','buddhism','বৌদ্ধ'],
     ['married','বিবাহিত'],['single','unmarried','অবিবাহিত'],
-    ['bangladeshi','বাংলাদেশী'],
-    ['not applicable','n/a'],
+    ['bangladeshi','বাংলাদেশী'],['not applicable','n/a'],
     ['yes','হ্যাঁ'],['no','না'],
     ['s.s.c','ssc'],['h.s.c','hsc'],
     ['science','বিজ্ঞান'],['humanities','arts','মানবিক'],
@@ -99,104 +97,90 @@ object JsFormFiller {
     ['gpa(out of 5)','gpa (out of 5)'],['gpa(out of 4)','gpa (out of 4)'],
     ['cgpa(out of 4)','cgpa (out of 4)'],
     ['1st class','first class'],['2nd class','second class'],
-    ['pass course','pass'],['honors','honour','b.a.','b.sc.']
+    ['pass course','pass'],['honors','honour']
   ];
   function synMatch(a,b){
-    for(var i=0;i<SYN.length;i++){
+    for(var i=0;i<SYN.length;i++)
       if(SYN[i].indexOf(a)!==-1&&SYN[i].indexOf(b)!==-1)return true;
-    }
     return false;
   }
 
-  // ── Section header detection ──────────────────────────────────────────────
-  var SEC=[
+  // ── Section context ───────────────────────────────────────────────────────
+  var SECS=[
     {tag:'permanent',re:/permanent.*address|স্থায়ী.*ঠিকানা/i},
     {tag:'present',  re:/present.*address|বর্তমান.*ঠিকানা/i},
-    {tag:'jsc',      re:/j\.?s\.?c|jdc|junior.*equiv/i},
+    {tag:'jsc',      re:/j\.?s\.?c.*equiv|jdc.*equiv|junior.*equiv|jsc.*level|jdc.*level/i},
     {tag:'hsc',      re:/h\.?s\.?c.*equiv|hsc.*level/i},
     {tag:'ssc',      re:/s\.?s\.?c.*equiv|ssc.*level/i},
     {tag:'graduation',re:/graduation.*equiv|graduation.*level/i}
   ];
-  var _secCache=null;
-  function secHeaders(){
-    if(_secCache)return _secCache;
-    _secCache=[];
-    var els=document.querySelectorAll('div,h1,h2,h3,h4,h5,legend,span,td,th,p');
-    for(var i=0;i<els.length;i++){
-      var t=(els[i].innerText||els[i].textContent||'').trim();
-      if(!t||t.length>120)continue;
-      for(var j=0;j<SEC.length;j++)
-        if(SEC[j].re.test(t)){_secCache.push({el:els[i],tag:SEC[j].tag});break;}
-    }
-    return _secCache;
+  var _sc=null;
+  function secH(){
+    if(_sc)return _sc; _sc=[];
+    document.querySelectorAll('div,h1,h2,h3,h4,h5,legend,span,td,th,p').forEach(function(e){
+      var t=(e.innerText||e.textContent||'').trim();
+      if(!t||t.length>120)return;
+      for(var i=0;i<SECS.length;i++)
+        if(SECS[i].re.test(t)){_sc.push({el:e,tag:SECS[i].tag});break;}
+    });
+    return _sc;
   }
   function getCtx(el){
-    var h=secHeaders(),best=null;
+    var h=secH(),best=null;
     for(var i=0;i<h.length;i++){
-      var rel=h[i].el.compareDocumentPosition(el);
-      if(rel&Node.DOCUMENT_POSITION_FOLLOWING)best=h[i].tag;
+      if(h[i].el.compareDocumentPosition(el)&Node.DOCUMENT_POSITION_FOLLOWING)best=h[i].tag;
     }
     return best;
   }
 
-  // ── Get all identifiers for a field ──────────────────────────────────────
-  function ids(el){
-    var arr=[
-      el.getAttribute('name')||'',
-      el.getAttribute('id')||'',
-      el.getAttribute('placeholder')||'',
-      el.getAttribute('aria-label')||''
-    ];
+  // ── Collect ALL identifiers for a field ───────────────────────────────────
+  // Returns object with .all (string array) and .hasBn (boolean)
+  function getIds(el){
+    var arr=[];
+    arr.push(el.getAttribute('name')||'');
+    arr.push(el.getAttribute('id')||'');
+    arr.push(el.getAttribute('placeholder')||'');
+    arr.push(el.getAttribute('aria-label')||'');
+    // label[for]
     if(el.id){
       var lb=document.querySelector('label[for="'+el.id+'"]');
       if(lb)arr.push(lb.innerText||lb.textContent||'');
     }
+    // parent label
     var pl=el.closest('label');
     if(pl)arr.push(pl.innerText||'');
+    // walk up 5 levels looking at previous siblings (label/td text)
     var node=el;
-    for(var d=0;d<4&&node;d++){
+    for(var d=0;d<5&&node;d++){
       var ps=node.previousElementSibling;
-      if(ps&&!/^(select|input|textarea)$/i.test(ps.tagName)){
-        var pt=(ps.innerText||ps.textContent||'').trim();
-        if(pt&&pt.length<100)arr.push(pt);
+      if(ps&&!/^(select|input|textarea|button)$/i.test(ps.tagName)){
+        var t=(ps.innerText||ps.textContent||'').trim();
+        if(t&&t.length<120)arr.push(t);
       }
       node=node.parentElement;
     }
-    return arr.filter(function(s){return s.trim()!=='';});
+    arr=arr.filter(function(s){return s.trim()!=='';});
+    var joined=arr.join(' ');
+    // hasBn: true if Bengali unicode OR name/id ends with 'ben','_bn','bn','bangla'
+    var nameId=((el.getAttribute('name')||'')+(el.getAttribute('id')||'')).toLowerCase();
+    var hasBn=/[\u0980-\u09FF]/.test(joined)||/ben$|_bn$|bn$|bangla$/i.test(nameId);
+    return {all:arr, joined:joined.toLowerCase(), hasBn:hasBn, nameId:nameId};
   }
 
-  function joined(arr){return arr.join(' ');}
-
-  // ── Bengali field detector ────────────────────────────────────────────────
-  // A field is Bengali if its name/id ends with 'ben','_bn','bn'
-  // OR its closest label contains Bengali unicode characters
-  function isBn(el,idArr){
-    var nameAttr=(el.getAttribute('name')||'').toLowerCase();
-    var idAttr=(el.getAttribute('id')||'').toLowerCase();
-    // name/id ends with ben or bn
-    if(/ben$|_bn$|bn$|bangla$/i.test(nameAttr)||/ben$|_bn$|bn$|bangla$/i.test(idAttr))return true;
-    // label text contains Bengali unicode (range 0980–09FF)
-    var j=joined(idArr);
-    return /[\u0980-\u09FF]/.test(j);
-  }
-
-  // ── SELECT option finder ──────────────────────────────────────────────────
+  // ── SELECT helpers ────────────────────────────────────────────────────────
   function findOpt(sel,val){
     if(!val)return -1;
     var t=val.trim().toLowerCase();
     var opts=sel.options;
-    // exact text or value
     for(var i=0;i<opts.length;i++){
       var ot=(opts[i].text||'').trim().toLowerCase();
       var ov=(opts[i].value||'').trim().toLowerCase();
       if(ot===t||ov===t)return i;
     }
-    // synonym
     for(var i=0;i<opts.length;i++){
       var ot2=(opts[i].text||'').trim().toLowerCase();
       if(ot2&&synMatch(t,ot2))return i;
     }
-    // contains (skip "Select")
     for(var i=0;i<opts.length;i++){
       var ot3=(opts[i].text||'').trim().toLowerCase();
       if(!ot3||ot3==='select')continue;
@@ -213,34 +197,29 @@ object JsFormFiller {
       var d=Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype,'value');
       if(d&&d.set)d.set.call(el,el.options[idx].value);
       el.selectedIndex=idx;
-      ['input','change','blur'].forEach(function(e){
-        el.dispatchEvent(new Event(e,{bubbles:true}));
-      });
+      ['input','change','blur'].forEach(function(ev){el.dispatchEvent(new Event(ev,{bubbles:true}));});
       return true;
     }catch(e){return false;}
   }
 
   // ── Text input setter ─────────────────────────────────────────────────────
   function pad2(n){return ('0'+n).slice(-2);}
-  function toIso(ddmmyyyy){
-    var m=ddmmyyyy.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  function toIso(s){
+    var m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
     return m?m[3]+'-'+pad2(m[1])+'-'+pad2(m[2]):null;
   }
   function setVal(el,val){
     if(!val||el.readOnly||el.disabled)return false;
-    if(el.type==='date'){var iso=toIso(val);if(!iso)return false;val=iso;}
+    if(el.type==='date'){val=toIso(val);if(!val)return false;}
     try{
       var proto=el.tagName==='TEXTAREA'?HTMLTextAreaElement.prototype:HTMLInputElement.prototype;
       var d=Object.getOwnPropertyDescriptor(proto,'value');
       if(d&&d.set)d.set.call(el,val); else el.value=val;
-      ['input','change','blur'].forEach(function(e){
-        el.dispatchEvent(new Event(e,{bubbles:true}));
-      });
+      ['input','change','blur'].forEach(function(ev){el.dispatchEvent(new Event(ev,{bubbles:true}));});
       return true;
     }catch(e){return false;}
   }
 
-  // ── Deferred upazila ──────────────────────────────────────────────────────
   function waitFill(el,val,n){
     (function try_(left){
       if(el.options.length>1&&setSelect(el,val))return;
@@ -258,169 +237,160 @@ object JsFormFiller {
   var filled=0, deferred=[];
 
   fields.forEach(function(el){
-    var idArr=ids(el);
-    var j=joined(idArr).toLowerCase();
-    var bn=isBn(el,idArr);
+    var F=getIds(el);
+    var j=F.joined;           // all identifiers joined, lowercase
+    var bn=F.hasBn;           // is this a Bengali field?
+    var ni=F.nameId;          // name+id concatenated, lowercase
     var ctx=getCtx(el);
 
-    // ── SELECT fields ───────────────────────────────────────────────────────
+    // ════════════════════════════════════════════════════════════
+    //  SELECT
+    // ════════════════════════════════════════════════════════════
     if(el.tagName==='SELECT'){
 
-      // 1. Yes/No dropdowns — detect by field name/id ONLY (not label)
-      var nameId=((el.getAttribute('name')||'')+(el.getAttribute('id')||'')).toLowerCase();
-      if(/\bnid\b/.test(nameId)){
+      // Yes/No dropdowns — match by name/id attribute ONLY
+      // Website uses: name="nid", name="breg", name="passport"
+      if(/\bnid\b/.test(ni)&&!/number|no\b/.test(ni)){
         if(setSelect(el,nid?'Yes':'No')){filled++;return;}
       }
-      if(/\bbreg\b|birth_reg|birthreg/.test(nameId)){
+      if(/\bbreg\b|birth_?reg$/.test(ni)){
         if(setSelect(el,birthCertNo?'Yes':'No')){filled++;return;}
       }
-      if(/\bpassport\b/.test(nameId)&&!/number|no\b/.test(nameId)){
+      if(/\bpassport\b/.test(ni)&&!/number|no\b/.test(ni)){
         if(setSelect(el,passport?'Yes':'No')){filled++;return;}
       }
 
-      // 2. Simple dropdowns
-      if(/\bnationality\b/.test(j)){if(setSelect(el,nationality)){filled++;return;}}
-      if(/\breligion\b/.test(j)){if(setSelect(el,religion)){filled++;return;}}
-      if(/\bgender\b|\bsex\b/.test(j)){if(setSelect(el,gender)){filled++;return;}}
-      if(/marital.*status|marital_status/.test(j)){if(setSelect(el,marital)){filled++;return;}}
+      // Simple named dropdowns (label text match)
+      if(/nationality/.test(j)){if(setSelect(el,nationality)){filled++;return;}}
+      if(/religion/.test(j)){if(setSelect(el,religion)){filled++;return;}}
+      if(/\bgender\b/.test(j)){if(setSelect(el,gender)){filled++;return;}}
+      if(/marital.{0,10}status/.test(j)){if(setSelect(el,marital)){filled++;return;}}
       if(/\bquota\b/.test(j)){if(setSelect(el,quota)){filled++;return;}}
-      if(/dep.*status|dep_status/.test(j)){if(setSelect(el,depStatus)){filled++;return;}}
+      if(/dep.{0,15}status/.test(j)){if(setSelect(el,depStatus)){filled++;return;}}
+      if(/blood.{0,10}group/.test(j)){if(setSelect(el,blood)){filled++;return;}}
 
-      // 3. District (by name attribute prefix)
-      if(/present.*district|district.*present/.test(j)){
+      // Address district
+      if(/present.{0,10}district/.test(ni)||(/district/.test(j)&&ctx==='present')){
         if(setSelect(el,pDistrict)){filled++;return;}
       }
-      if(/permanent.*district|district.*permanent/.test(j)){
+      if(/permanent.{0,10}district/.test(ni)||(/district/.test(j)&&ctx==='permanent')){
         if(setSelect(el,sDistrict)){filled++;return;}
       }
 
-      // 4. Section-context selects
+      // Section-context selects
       if(ctx){
-        var isUpazila=/upazila|thana|উপজেলা/.test(j);
-        var val=null;
-        if(/district/.test(j))      val=ctx==='permanent'?sDistrict:pDistrict;
-        else if(isUpazila)          val=ctx==='permanent'?sUpazila:pUpazila;
-        else if(/exam/.test(j)){
-          val=ctx==='jsc'?jscExam:ctx==='ssc'?sscExam:ctx==='hsc'?hscExam:ctx==='graduation'?gradDegree:null;
-        }else if(/board/.test(j)){
-          val=ctx==='jsc'?jscBoard:ctx==='ssc'?sscBoard:ctx==='hsc'?hscBoard:null;
-        }else if(/result/.test(j)&&!/gpa|cgpa/.test(j)){
-          val=ctx==='jsc'?jscResultType:ctx==='ssc'?sscResultType:ctx==='hsc'?hscResultType:ctx==='graduation'?gradResultType:null;
-        }else if(/year|pass/.test(j)){
-          val=ctx==='jsc'?jscYear:ctx==='ssc'?sscYear:ctx==='hsc'?hscYear:ctx==='graduation'?gradYear:null;
-        }else if(/group|subject/.test(j)){
-          val=ctx==='ssc'?sscGroup:ctx==='hsc'?hscGroup:ctx==='graduation'?gradSubject:null;
-        }else if(/duration/.test(j)){
-          val=ctx==='graduation'?gradDuration:null;
-        }
+        var isUpa=/upazila|thana|উপজেলা/.test(j);
+        var sv=null;
+        if(/\bexam\b/.test(j))
+          sv=ctx==='jsc'?jscExam:ctx==='ssc'?sscExam:ctx==='hsc'?hscExam:ctx==='graduation'?gradDegree:null;
+        else if(/\bboard\b/.test(j))
+          sv=ctx==='jsc'?jscBoard:ctx==='ssc'?sscBoard:ctx==='hsc'?hscBoard:null;
+        else if(/\bresult\b/.test(j)&&!/gpa|cgpa/.test(j))
+          sv=ctx==='jsc'?jscResultType:ctx==='ssc'?sscResultType:ctx==='hsc'?hscResultType:ctx==='graduation'?gradResultType:null;
+        else if(/passing.{0,5}year|\byear\b/.test(j))
+          sv=ctx==='jsc'?jscYear:ctx==='ssc'?sscYear:ctx==='hsc'?hscYear:ctx==='graduation'?gradYear:null;
+        else if(/group|subject/.test(j))
+          sv=ctx==='ssc'?sscGroup:ctx==='hsc'?hscGroup:ctx==='graduation'?gradSubject:null;
+        else if(/duration/.test(j))
+          sv=ctx==='graduation'?gradDuration:null;
+        else if(isUpa)
+          sv=ctx==='permanent'?sUpazila:pUpazila;
+        else if(/district/.test(j))
+          sv=ctx==='permanent'?sDistrict:pDistrict;
 
-        if(val){
-          if(isUpazila){deferred.push({el:el,val:val});return;}
-          if(setSelect(el,val)){filled++;return;}
+        if(sv){
+          if(isUpa){deferred.push({el:el,val:sv});return;}
+          if(setSelect(el,sv)){filled++;return;}
         }
       }
       return;
     }
 
-    // ── TEXT / TEXTAREA fields ──────────────────────────────────────────────
+    // ════════════════════════════════════════════════════════════
+    //  TEXT / TEXTAREA / EMAIL
+    // ════════════════════════════════════════════════════════════
 
-    // EMAIL — must check BEFORE mobile to avoid mobile going into email box
-    // Use input type="email" OR name/id contains "email" but NOT "mobile/phone/cell"
+    // EMAIL — type=email OR label says "email" but NOT mobile/phone
     if(el.type==='email'||(/\bemail\b/.test(j)&&!/mobile|phone|cell/.test(j))){
       if(setVal(el,emailVal)){filled++;return;}
     }
 
-    // NAMES — use field name/id attribute for EN/BN, NOT label text
-    // Bengali fields end with 'ben','_bn','bn' in name/id
-    // Website pattern: applicantname, applicantnameben, fathername, fathernameben, etc.
-    var nameAttr=(el.getAttribute('name')||el.getAttribute('id')||'').toLowerCase();
-
-    // Spouse
-    if(/spouse|husband.*name|wife.*name/.test(nameAttr)){
-      if(setVal(el,bn?spouseBn:spouseEn)){filled++;return;}
-    }
-    // Mother
-    if(/mother.*name|mothername/.test(nameAttr)){
-      if(setVal(el,bn?motherBn:motherEn)){filled++;return;}
-    }
-    // Father
-    if(/father.*name|fathername/.test(nameAttr)){
-      if(setVal(el,bn?fatherBn:fatherEn)){filled++;return;}
-    }
-    // Applicant / own name (must come after father/mother check)
-    if(/applicant.*name|applicantname|^name$/.test(nameAttr)&&!/father|mother|spouse/.test(nameAttr)){
-      if(setVal(el,bn?fullNameBn:fullNameEn)){filled++;return;}
+    // MOBILE — type=tel OR label/name has mobile/phone, NOT email
+    if((el.type==='tel'||/mobile|phone|cell/.test(j))&&!/\bemail\b/.test(j)){
+      if(setVal(el,mobile)){filled++;return;}
     }
 
     // DOB
-    if(/date.*birth|birth.*date|^dob$/.test(j)){
+    if(/date.{0,5}birth|birth.{0,5}date|\bdob\b|জন্ম.{0,5}তারিখ/.test(j)){
       if(setVal(el,dob)){filled++;return;}
     }
 
-    // NID number box — only fill if NID exists
-    if((/\[national id number\]|national.*id.*number|nid.*number|nid.*no\b/.test(j)||
-        /nid_number|nidnumber/.test(nameAttr))&&nid){
-      if(setVal(el,nid)){filled++;return;}
+    // NID number box
+    // Two signals: label contains "[National ID Number]" OR type=number next to NID dropdown
+    if(/national.{0,5}id.{0,10}number|\[national id number\]|nid.{0,5}no|nid.{0,5}num/.test(j)){
+      if(nid&&setVal(el,nid)){filled++;return;}
     }
 
-    // Birth Reg number box — only fill if birthCertNo exists AND is different from NID
-    if((/\[birth registration number\]|birth.*reg.*number|birth.*cert.*number/.test(j)||
-        /breg_number|bregnumber/.test(nameAttr))&&birthCertNo&&birthCertNo!==nid){
-      if(setVal(el,birthCertNo)){filled++;return;}
+    // Birth Registration number box
+    // Only fill if birthCertNo is set AND different from NID
+    if(/birth.{0,10}reg.{0,10}num|\[birth registration number\]|breg.{0,5}num/.test(j)){
+      if(birthCertNo&&birthCertNo!==nid&&setVal(el,birthCertNo)){filled++;return;}
     }
 
-    // Passport number
-    if(/passport.*number|passport.*no\b/.test(j)&&passport){
-      if(setVal(el,passport)){filled++;return;}
+    // Passport number box
+    if(/passport.{0,10}num|passport.{0,5}no\b/.test(j)){
+      if(passport&&setVal(el,passport)){filled++;return;}
     }
 
-    // Mobile — only type=tel or name/id contains mobile/phone, NOT email
-    if((el.type==='tel'||/mobile|phone|cell/.test(nameAttr))&&!/email/.test(nameAttr)){
-      if(/confirm|re.?enter|retype/.test(j)){
-        if(setVal(el,mobile)){filled++;return;}
-      }else if(/mobile|phone|cell/.test(j)){
-        if(setVal(el,mobile)){filled++;return;}
-      }
+    // ── NAMES — use BOTH label text pattern AND bn flag ──────────────────
+    // Logic:
+    //   Step1: identify WHICH name (applicant/father/mother/spouse) by label text
+    //   Step2: pick EN or BN based on bn flag (Bengali unicode in label)
+    //
+    // Important: check father/mother BEFORE applicant to avoid wrong match
+
+    var isSpouse = /spouse|husband.{0,5}name|wife.{0,5}name|\[spouse/i.test(j);
+    var isMother = /mother.{0,5}name|মাতার.{0,5}নাম|মাতা|মায়ের/i.test(j);
+    var isFather = !isMother&&/father.{0,5}name|পিতার.{0,5}নাম|পিতা|বাবার/i.test(j);
+    var isApplicant = !isFather&&!isMother&&!isSpouse&&
+                      /applicant.{0,10}name|আবেদনকারীর.{0,5}নাম|^name$/.test(j);
+
+    if(isSpouse){if(setVal(el,bn?spouseBn:spouseEn)){filled++;return;}}
+    if(isMother){if(setVal(el,bn?motherBn:motherEn)){filled++;return;}}
+    if(isFather){if(setVal(el,bn?fatherBn:fatherEn)){filled++;return;}}
+    if(isApplicant){if(setVal(el,bn?fullNameBn:fullNameEn)){filled++;return;}}
+
+    // ── Address text fields ───────────────────────────────────────────────
+    var isP = ctx==='present', isS = ctx==='permanent';
+    if(isP||isS){
+      if(/care.{0,5}of/.test(j)){if(setVal(el,isP?pCareOf:sCareOf)){filled++;return;}}
+      if(/village|road|house|flat|গ্রাম|মহল্লা/.test(j)){if(setVal(el,isP?pVillage:sVillage)){filled++;return;}}
+      if(/post.{0,5}office|পোস্ট/.test(j)){if(setVal(el,isP?pPostOffice:sPostOffice)){filled++;return;}}
+      if(/post.{0,5}code|zip/.test(j)){if(setVal(el,isP?pPostCode:sPostCode)){filled++;return;}}
     }
 
-    // Spouse Name (label-based fallback for sites not using name attr)
-    if(/spouse.*name|\[spouse.*name\]/.test(j)&&!nameAttr.includes('spouse')){
-      if(setVal(el,bn?spouseBn:spouseEn)){filled++;return;}
-    }
-
-    // Address fields — context required
-    if(ctx==='present'||ctx==='permanent'){
-      var isP=ctx==='present';
-      if(/care.*of/.test(j)){if(setVal(el,isP?pCareOf:sCareOf)){filled++;return;}}
-      if(/village|road|house|flat/.test(j)){if(setVal(el,isP?pVillage:sVillage)){filled++;return;}}
-      if(/post.*office/.test(j)){if(setVal(el,isP?pPostOffice:sPostOffice)){filled++;return;}}
-      if(/post.*code|zip/.test(j)){if(setVal(el,isP?pPostCode:sPostCode)){filled++;return;}}
-    }
-
-    // Education text fields (roll, reg, gpa, university) by context
+    // ── Education text fields ─────────────────────────────────────────────
     if(ctx){
       if(/roll/.test(j)){
         var rv=ctx==='jsc'?jscRoll:ctx==='ssc'?sscRoll:ctx==='hsc'?hscRoll:'';
         if(rv&&setVal(el,rv)){filled++;return;}
       }
-      if(/reg/.test(j)&&!/religion/.test(j)){
+      if(/reg/.test(j)&&!/religion|register/.test(j)){
         var rgv=ctx==='ssc'?sscReg:ctx==='hsc'?hscReg:'';
         if(rgv&&setVal(el,rgv)){filled++;return;}
       }
-      if(/gpa|cgpa/.test(j)){
+      if(/\bgpa\b|\bcgpa\b/.test(j)){
         var gv=ctx==='jsc'?jscGpa:ctx==='ssc'?sscGpa:ctx==='hsc'?hscGpa:ctx==='graduation'?gradResult:'';
         if(gv&&setVal(el,gv)){filled++;return;}
       }
       if(ctx==='graduation'){
-        if(/university|inst/.test(j)&&gradInst){if(setVal(el,gradInst)){filled++;return;}}
-        if(/cgpa|result/.test(j)&&!/type/.test(j)&&gradResult){if(setVal(el,gradResult)){filled++;return;}}
+        if(/university|inst/.test(j)){if(gradInst&&setVal(el,gradInst)){filled++;return;}}
+        if(/cgpa|result/.test(j)&&!/type/.test(j)){if(gradResult&&setVal(el,gradResult)){filled++;return;}}
       }
     }
   });
 
-  // Deferred upazila fills (AJAX cascade)
   deferred.forEach(function(d){waitFill(d.el,d.val,20);});
-
   return '✅ '+filled+' টি field পূরণ হয়েছে!';
 })();
 """.trimIndent()
